@@ -1,4 +1,4 @@
-package com.github.sergiohrvas.queryle.challenges.models.valueobjects;
+package com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects;
 
 import java.util.List;
 import java.util.Objects;
@@ -17,12 +17,12 @@ public record Query (
     
     public Query (String value) {
         if (Objects.isNull(value)) {
-            throw new InvalidQueryException("Query cannot be null");
+            throw new InvalidQueryException("Value text cannot be null");
         }
 
         String normalizedQuery = value.trim().toLowerCase();
         if (normalizedQuery.isEmpty()) {
-            throw new InvalidQueryException("Query cannot be empty");
+            throw new InvalidQueryException("Value text cannot be empty");
         }
 
         if (normalizedQuery.length() > MAX_QUERY_LENGTH) {

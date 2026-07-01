@@ -1,36 +1,36 @@
-package com.github.sergiohrvas.queryle.challenges.models;
+package com.github.sergiohrvas.queryle.challenges.domain.models;
 
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
 
 import com.github.sergiohrvas.queryle.challenges.domain.exceptions.InvalidDailyChallengeException;
-import com.github.sergiohrvas.queryle.challenges.models.valueobjects.Difficulty;
-import com.github.sergiohrvas.queryle.challenges.models.valueobjects.Query;
+import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Difficulty;
+import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Query;
 
 public class DailyChallenge {
-    private UUID id;
-    private String formulation;
-    private Query query;
-    private Difficulty difficulty;
-    private LocalDate publicationDate;
-    private UUID dataContext;
+    private final UUID id;
+    private final String formulation;
+    private final Query query;
+    private final Difficulty difficulty;
+    private final LocalDate publicationDate;
+    private final UUID dataContextId;
 
-    public DailyChallenge(String formulation, Query query, Difficulty difficulty, LocalDate publicationDate, UUID dataContext) {
-        this(UUID.randomUUID(), formulation, query, difficulty, publicationDate, dataContext);
+    public DailyChallenge(String formulation, Query query, Difficulty difficulty, LocalDate publicationDate, UUID dataContextId) {
+        this(UUID.randomUUID(), formulation, query, difficulty, publicationDate, dataContextId);
     }
 
-    public DailyChallenge(UUID id, String formulation, Query query, Difficulty difficulty, LocalDate publicationDate, UUID dataContext) {
-        validateState(id, formulation, query, difficulty, publicationDate, dataContext);
+    public DailyChallenge(UUID id, String formulation, Query query, Difficulty difficulty, LocalDate publicationDate, UUID dataContextId) {
+        validateState(id, formulation, query, difficulty, publicationDate, dataContextId);
         this.id = id;
         this.formulation = formulation;
         this.query = query;
         this.difficulty = difficulty;
         this.publicationDate = publicationDate;
-        this.dataContext = dataContext;
+        this.dataContextId = dataContextId;
     }
 
-    private void validateState(UUID id, String formulation, Query query, Difficulty difficulty, LocalDate publicationDate, UUID dataContext) {
+    private void validateState(UUID id, String formulation, Query query, Difficulty difficulty, LocalDate publicationDate, UUID dataContextId) {
         if(Objects.isNull(id)){
             throw new InvalidDailyChallengeException("Challenge ID cannot be null");
         }
@@ -51,8 +51,8 @@ public class DailyChallenge {
             throw new InvalidDailyChallengeException("Publication date cannot be null");
         }
 
-        if(Objects.isNull(dataContext)){
-            throw new InvalidDailyChallengeException("Data context cannot be null"); 
+        if(Objects.isNull(dataContextId)){
+            throw new InvalidDailyChallengeException("Data context id cannot be null"); 
         }
     }
 
@@ -76,8 +76,8 @@ public class DailyChallenge {
         return difficulty;
     }
 
-    public UUID getDataContext(){
-        return dataContext;
+    public UUID getDataContextId(){
+        return dataContextId;
     }
 
     @Override
