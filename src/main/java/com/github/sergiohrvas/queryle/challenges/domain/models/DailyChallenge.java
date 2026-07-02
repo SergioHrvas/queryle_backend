@@ -92,4 +92,9 @@ public class DailyChallenge {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "DailyChallenge [id=" + id + ", formulation=" + formulation + ", query=" + query + ", difficulty=" + difficulty + ", publicationDate=" + publicationDate + ", dataContextId=" + dataContextId + "]";
+    }
 }
