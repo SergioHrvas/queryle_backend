@@ -15,7 +15,7 @@ public class GetDailyChallengeUseCase {
         this.dailyChallengePort = dailyChallengePort;
     }
 
-    public DailyChallenge getDailyChallenge(UUID dailyChallengeId) {
+    public DailyChallenge execute(UUID dailyChallengeId) {
         return dailyChallengePort.findById(dailyChallengeId).orElseThrow(() -> new IllegalArgumentException("Daily challenge not found"));
     }
 }
