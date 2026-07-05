@@ -15,7 +15,7 @@ public class GetDataContextUseCase {
         this.dataContextPort = dataContextPort;
     }
 
-    public DataContext getDataContext(UUID dataContextId) {
+    public DataContext execute(UUID dataContextId) {
         return dataContextPort.findById(dataContextId).orElseThrow(() -> new IllegalArgumentException("Data context not found"));
     }
 }
