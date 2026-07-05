@@ -24,4 +24,11 @@ public record Feedback (
             throw new InvalidFeedbackException("Order match level cannot be null");
         }
     }
+
+    public boolean isAllExact() {
+        return MatchLevel.EXACT.equals(columnsMatchLevel) &&
+            MatchLevel.EXACT.equals(rowsMatchLevel) &&
+            MatchLevel.EXACT.equals(dataMatchLevel) &&
+            MatchLevel.EXACT.equals(orderMatchLevel);
+    }
 }

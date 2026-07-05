@@ -7,18 +7,19 @@ import com.github.sergiohrvas.queryle.challenges.domain.exceptions.InvalidPlayer
 
 public class PlayerStats {
     private final UUID playerId;
-    private final int playedGames;
-    private final int wonGames;
-    private final int lostGames;
-    private final int currentStreak;
-    private final int longestStreak;
+    private int playedGames;
+    private int wonGames;
+    private int lostGames;
+    private int currentStreak;
+    private int longestStreak;
+    private int lastChallengeSequence;
 
-    public PlayerStats(int playedGames, int wonGames, int lostGames, int currentStreak, int longestStreak) {
-        this(UUID.randomUUID(), playedGames, wonGames, lostGames, currentStreak, longestStreak);
+    public PlayerStats(UUID playerId) {
+        this(playerId, 0, 0, 0, 0, 0, 0);
     }
 
-    public PlayerStats(UUID playerId, int playedGames, int wonGames, int lostGames, int currentStreak, int longestStreak) {
-        validateState(playerId, playedGames, wonGames, lostGames, currentStreak, longestStreak);
+    public PlayerStats(UUID playerId, int playedGames, int wonGames, int lostGames, int currentStreak, int longestStreak, int lastChallengeSequence) {
+        validateState(playerId, playedGames, wonGames, lostGames, currentStreak, longestStreak, lastChallengeSequence);
         
         this.playerId = playerId;
         this.playedGames = playedGames;
@@ -26,14 +27,19 @@ public class PlayerStats {
         this.lostGames = lostGames;
         this.currentStreak = currentStreak;
         this.longestStreak = longestStreak;
+        this.lastChallengeSequence = lastChallengeSequence;
     }
 
 
-    private void validateState(UUID playerId, int playedGames, int wonGames, int lostGames, int currentStreak, int longestStreak) {
+    private void validateState(UUID playerId, int playedGames, int wonGames, int lostGames, int currentStreak, int longestStreak, int lastChallengeSequence) {
         if (Objects.isNull(playerId)) {
             throw new InvalidPlayerStatsException("Player ID cannot be null");
         }
         
+        if (lastChallengeSequence < 0) {
+            throw new InvalidPlayerStatsException("Last challenge sequence cannot be negative");
+        }
+
         if (playedGames < 0) {
             throw new InvalidPlayerStatsException("Played games cannot be negative");
         }
@@ -60,6 +66,36 @@ public class PlayerStats {
 
         if (wonGames + lostGames != playedGames) {
             throw new InvalidPlayerStatsException("Won games plus lost games must equal played games");
+        }
+
+    }
+
+    public void recordGameResult(boolean isWon, int newChallengeSequence, boolean isChallengeOfToday) {
+        playedGames++;
+
+        if (!isWon) {
+            this.lostGames++;
+        } else {
+            this.wonGames++;
+        }
+
+        if (isChallengeOfToday) {
+            if (!isWon) {
+                this.currentStreak = 0;
+                return;
+            }
+
+            if (this.lastChallengeSequence != 0 && this.lastChallengeSequence + 1 != newChallengeSequence) {
+                this.currentStreak = 0;
+            }
+
+            this.currentStreak++;
+
+            if (this.currentStreak > this.longestStreak) {
+                this.longestStreak = this.currentStreak;
+            }
+
+            this.lastChallengeSequence = newChallengeSequence;
         }
     }
 
@@ -88,11 +124,17 @@ public class PlayerStats {
     }
 
     public double getWinRate() {
-        return wonGames / playedGames;
+        if (playedGames == 0) {
+            return 0.0;
+        }
+        return (double) wonGames / playedGames;
     }
 
     public double getLossRate() {
-        return lostGames / playedGames;
+        if (playedGames == 0) {
+            return 0.0;
+        }
+        return (double) lostGames / playedGames;
     }
 
     @Override
@@ -104,6 +146,7 @@ public class PlayerStats {
                 ", lostGames=" + lostGames +
                 ", currentStreak=" + currentStreak +
                 ", longestStreak=" + longestStreak +
+                ", lastChallengeSequence=" + lastChallengeSequence +
                 '}';
     }
 
