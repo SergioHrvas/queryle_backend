@@ -79,7 +79,7 @@ public class Game {
         return Collections.unmodifiableList(attempts);
     }
 
-    public boolean isApproved(){
+    public boolean isWon(){
         return GameStatus.COMPLETED.equals(status) && !attempts.isEmpty() && attempts.get(attempts.size() - 1).isCorrect();
     }
 
