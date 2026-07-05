@@ -16,7 +16,7 @@ public class GetPlayerStatsUseCase {
         this.playerStatsPort = playerStatsPort;
     }
 
-    public PlayerStats getPlayerStats(UUID playerId) {
+    public PlayerStats execute(UUID playerId) {
         return playerStatsPort.findById(playerId).orElseGet(() -> new PlayerStats(playerId));
     }
 }
