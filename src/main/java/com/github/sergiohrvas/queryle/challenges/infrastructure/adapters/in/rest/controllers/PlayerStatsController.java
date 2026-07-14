@@ -1,4 +1,4 @@
-package com.github.sergiohrvas.queryle.challenges.infrastructure.controllers;
+package com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.controllers;
 
 import java.util.UUID;
 
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-import com.github.sergiohrvas.queryle.challenges.application.dtos.PlayerStatsResponseDTO;
-import com.github.sergiohrvas.queryle.challenges.application.mappers.PlayerStatsMapper;
+import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.response.PlayerStatsResponseDTO;
+import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.mappers.PlayerStatsMapper;
 import com.github.sergiohrvas.queryle.challenges.application.usecases.GetPlayerStatsUseCase;
 import com.github.sergiohrvas.queryle.challenges.domain.models.PlayerStats;
 

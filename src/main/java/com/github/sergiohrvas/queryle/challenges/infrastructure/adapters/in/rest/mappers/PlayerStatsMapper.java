@@ -1,9 +1,9 @@
-package com.github.sergiohrvas.queryle.challenges.application.mappers;
+package com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.mappers;
 
 import java.util.Objects;
 
-import com.github.sergiohrvas.queryle.challenges.application.dtos.PlayerStatsResponseDTO;
 import com.github.sergiohrvas.queryle.challenges.domain.models.PlayerStats;
+import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.response.PlayerStatsResponseDTO;
 
 public class PlayerStatsMapper {
     public static PlayerStatsResponseDTO toDTO(PlayerStats playerStats) {

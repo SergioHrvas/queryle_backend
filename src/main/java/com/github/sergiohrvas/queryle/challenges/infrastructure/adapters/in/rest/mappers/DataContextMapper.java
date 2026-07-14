@@ -1,9 +1,9 @@
-package com.github.sergiohrvas.queryle.challenges.application.mappers;
+package com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.mappers;
 
 import java.util.Objects;
 
-import com.github.sergiohrvas.queryle.challenges.application.dtos.DataContextResponseDTO;
 import com.github.sergiohrvas.queryle.challenges.domain.models.DataContext;
+import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.response.DataContextResponseDTO;
 
 public class DataContextMapper {
     public static DataContextResponseDTO toDTO(DataContext dataContext) {
