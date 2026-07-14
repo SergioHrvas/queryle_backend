@@ -1,9 +1,9 @@
-package com.github.sergiohrvas.queryle.challenges.application.mappers;
+package com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.mappers;
 
 import java.util.Objects;
 
-import com.github.sergiohrvas.queryle.challenges.application.dtos.DailyChallengeResponseDTO;
 import com.github.sergiohrvas.queryle.challenges.domain.models.DailyChallenge;
+import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.response.DailyChallengeResponseDTO;
 
 public interface DailyChallengeMapper {
     public static DailyChallengeResponseDTO toDTO(DailyChallenge dailyChallenge) {
