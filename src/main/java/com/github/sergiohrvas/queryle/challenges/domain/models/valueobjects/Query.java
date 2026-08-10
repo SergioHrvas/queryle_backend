@@ -20,7 +20,7 @@ public record Query (
             throw new InvalidQueryException("Value text cannot be null");
         }
 
-        String normalizedQuery = value.trim().toLowerCase();
+        String normalizedQuery = value.trim();
         if (normalizedQuery.isEmpty()) {
             throw new InvalidQueryException("Value text cannot be empty");
         }
