@@ -5,6 +5,5 @@ import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Quer
 import com.github.sergiohrvas.queryle.challenges.domain.models.DataContext;
 
 public interface QueryEvaluatorPort {
-    
     Feedback evaluate(Query query, Query solutionQuery, DataContext dataContext);
 }

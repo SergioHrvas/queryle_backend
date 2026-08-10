@@ -15,20 +15,20 @@ public class Game {
     private static final int MAX_ALLOWED_ATTEMPTS = 50;
 
     private final UUID id;
-    private final UUID userId;
+    private final UUID playerId;
     private final UUID dailyChallengeId;
     private final LocalDateTime startedDate;
     private GameStatus status;
     private final List<Attempt> attempts;
 
-    public Game (UUID userId, UUID dailyChallengeId, LocalDateTime startedDate){
-        this(UUID.randomUUID(), userId, dailyChallengeId, startedDate, GameStatus.IN_PROGRESS, new ArrayList<>());
+    public Game (UUID playerId, UUID dailyChallengeId, LocalDateTime startedDate){
+        this(UUID.randomUUID(), playerId, dailyChallengeId, startedDate, GameStatus.IN_PROGRESS, new ArrayList<>());
     }
 
-    public Game(UUID id, UUID userId, UUID dailyChallengeId, LocalDateTime startedDate, GameStatus status, List<Attempt> attempts){
-        validateState(id, userId, dailyChallengeId, startedDate, status, attempts);
+    public Game(UUID id, UUID playerId, UUID dailyChallengeId, LocalDateTime startedDate, GameStatus status, List<Attempt> attempts){
+        validateState(id, playerId, dailyChallengeId, startedDate, status, attempts);
         this.id = id;
-        this.userId = userId;
+        this.playerId = playerId;
         this.dailyChallengeId = dailyChallengeId;
         this.startedDate = startedDate;
         this.status = status;
@@ -59,8 +59,8 @@ public class Game {
         return id;
     }
 
-    public UUID getUserId(){
-        return userId;
+    public UUID getPlayerId(){
+        return playerId;
     }
 
     public UUID getDailyChallengeId(){
@@ -87,13 +87,13 @@ public class Game {
         return GameStatus.COMPLETED.equals(status) && !attempts.isEmpty() && !attempts.get(attempts.size() - 1).isCorrect();
     }
 
-    private void validateState(UUID id, UUID userId, UUID dailyChallengeId, LocalDateTime startedDate, GameStatus status, List<Attempt> attempts){
+    private void validateState(UUID id, UUID playerId, UUID dailyChallengeId, LocalDateTime startedDate, GameStatus status, List<Attempt> attempts){
         if(Objects.isNull(id)){
             throw new InvalidGameException("Id cannot be null");
         }
 
-        if (Objects.isNull(userId)){
-            throw new InvalidGameException("User id cannot be null");
+        if (Objects.isNull(playerId)){
+            throw new InvalidGameException("Player id cannot be null");
         }
 
         if(Objects.isNull(dailyChallengeId)){
@@ -138,6 +138,6 @@ public class Game {
 
     @Override
     public String toString() {
-        return "Game [id=" + id + ", userId=" + userId + ", dailyChallengeId=" + dailyChallengeId + ", startedDate=" + startedDate + ", status=" + status + ", attempts=" + attempts + "]";
+        return "Game [id=" + id + ", playerId=" + playerId + ", dailyChallengeId=" + dailyChallengeId + ", startedDate=" + startedDate + ", status=" + status + ", attempts=" + attempts + "]";
     }
 }
