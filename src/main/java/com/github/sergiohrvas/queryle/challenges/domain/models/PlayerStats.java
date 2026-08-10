@@ -123,6 +123,10 @@ public class PlayerStats {
         return longestStreak;
     }
 
+    public int getLastChallengeSequence() {
+        return lastChallengeSequence;
+    }
+
     public double getWinRate() {
         if (playedGames == 0) {
             return 0.0;

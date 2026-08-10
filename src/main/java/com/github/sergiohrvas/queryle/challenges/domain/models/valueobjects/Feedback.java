@@ -5,30 +5,35 @@ import java.util.Objects;
 import com.github.sergiohrvas.queryle.challenges.domain.exceptions.InvalidFeedbackException;
 
 public record Feedback (
-    MatchLevel columnsMatchLevel,
-    MatchLevel rowsMatchLevel,
-    MatchLevel dataMatchLevel,
-    MatchLevel orderMatchLevel
+    MatchLevel columnsNamesMatchLevel,
+    MatchLevel columnsCountMatchLevel,
+    MatchLevel rowsCountMatchLevel,
+    MatchLevel rowsDataMatchLevel,
+    MatchLevel rowsOrderMatchLevel
 ) {
     public Feedback {
-        if(Objects.isNull(columnsMatchLevel)){
-            throw new InvalidFeedbackException("Columns match level cannot be null");
+        if(Objects.isNull(columnsNamesMatchLevel)){
+            throw new InvalidFeedbackException("Columns names match level cannot be null");
         }
-        if(Objects.isNull(rowsMatchLevel)){
-            throw new InvalidFeedbackException("Rows match level cannot be null");
+        if(Objects.isNull(columnsCountMatchLevel)){
+            throw new InvalidFeedbackException("Columns count match level cannot be null");
         }
-        if(Objects.isNull(dataMatchLevel)){
-            throw new InvalidFeedbackException("Data match level cannot be null");
+        if(Objects.isNull(rowsCountMatchLevel)){
+            throw new InvalidFeedbackException("Rows count match level cannot be null");
         }
-        if(Objects.isNull(orderMatchLevel)){
-            throw new InvalidFeedbackException("Order match level cannot be null");
+        if(Objects.isNull(rowsDataMatchLevel)){
+            throw new InvalidFeedbackException("Rows data match level cannot be null");
+        }
+        if(Objects.isNull(rowsOrderMatchLevel)){
+            throw new InvalidFeedbackException("Rows order match level cannot be null");
         }
     }
 
     public boolean isAllExact() {
-        return MatchLevel.EXACT.equals(columnsMatchLevel) &&
-            MatchLevel.EXACT.equals(rowsMatchLevel) &&
-            MatchLevel.EXACT.equals(dataMatchLevel) &&
-            MatchLevel.EXACT.equals(orderMatchLevel);
+        return MatchLevel.EXACT.equals(columnsNamesMatchLevel) &&
+            MatchLevel.EXACT.equals(columnsCountMatchLevel) &&
+            MatchLevel.EXACT.equals(rowsCountMatchLevel) &&
+            MatchLevel.EXACT.equals(rowsDataMatchLevel) &&
+            MatchLevel.EXACT.equals(rowsOrderMatchLevel);
     }
 }

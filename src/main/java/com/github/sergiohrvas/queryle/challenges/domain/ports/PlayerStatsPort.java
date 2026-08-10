@@ -6,7 +6,6 @@ import java.util.UUID;
 import com.github.sergiohrvas.queryle.challenges.domain.models.PlayerStats;
 
 public interface PlayerStatsPort {
-    void save(PlayerStats playerStats);
-    Optional<PlayerStats> findById(UUID id);
-    Optional<PlayerStats> findByUserId(UUID userId);
+    PlayerStats save(PlayerStats playerStats);
+    Optional<PlayerStats> findByPlayerId(UUID playerId);
 }
