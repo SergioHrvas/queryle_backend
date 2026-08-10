@@ -42,9 +42,9 @@ public class SubmitAttemptUseCase {
     }
 
     @Transactional
-    public void execute(UUID userId, UUID dailyChallengeId, String rawQuery) {
+    public Game execute(UUID playerId, UUID dailyChallengeId, String rawQuery) {
         
-        Query userQuery = new Query(rawQuery);
+        Query playerQuery = new Query(rawQuery);
 
         // 1. Get the daily challenge
         DailyChallenge dailyChallenge = dailyChallengePort.findById(dailyChallengeId)
@@ -55,19 +55,19 @@ public class SubmitAttemptUseCase {
             .orElseThrow(() -> new IllegalArgumentException("Data context not found"));
         
         // 3. Get the game
-        Game game = gamePort.findByPlayerIdAndDailyChallengeId(userId, dailyChallengeId)
-            .orElseGet(() -> new Game(userId, dailyChallengeId, LocalDateTime.now()));
+        Game game = gamePort.findByPlayerIdAndDailyChallengeId(playerId, dailyChallengeId)
+            .orElseGet(() -> new Game(playerId, dailyChallengeId, LocalDateTime.now()));
 
-        Feedback feedback = queryEvaluator.evaluate(userQuery, dailyChallenge.getQuery(), dataContext);
+        Feedback feedback = queryEvaluator.evaluate(playerQuery, dailyChallenge.getQuery(), dataContext);
 
         // 4. Create the game attempt
-        Attempt gameAttempt = new Attempt(userQuery, feedback, LocalDateTime.now());
+        Attempt gameAttempt = new Attempt(playerQuery, feedback, LocalDateTime.now());
         game.addAttempt(gameAttempt);
 
         // 5. Update the player stats
         if(GameStatus.COMPLETED.equals(game.getStatus())) {
-            PlayerStats playerStats = playerStatsPort.findByUserId(userId)
-                .orElseGet(() -> new PlayerStats(userId));
+            PlayerStats playerStats = playerStatsPort.findByPlayerId(playerId)
+                .orElseGet(() -> new PlayerStats(playerId));
             
             int newLastChallengeSequence = dailyChallenge.getSequence();
             boolean isChallengeOfToday = dailyChallenge.getPublicationDate().equals(LocalDate.now());
@@ -78,6 +78,8 @@ public class SubmitAttemptUseCase {
         
         // 6. Save the game
         gamePort.save(game);
+
+        return game;
     }
 
 }
