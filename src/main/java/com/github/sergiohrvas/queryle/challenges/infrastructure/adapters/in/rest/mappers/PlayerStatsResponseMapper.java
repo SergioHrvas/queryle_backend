@@ -5,7 +5,7 @@ import java.util.Objects;
 import com.github.sergiohrvas.queryle.challenges.domain.models.PlayerStats;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.response.PlayerStatsResponseDTO;
 
-public class PlayerStatsMapper {
+public class PlayerStatsResponseMapper {
     public static PlayerStatsResponseDTO toDTO(PlayerStats playerStats) {
         if (Objects.isNull(playerStats)) return null;
 
