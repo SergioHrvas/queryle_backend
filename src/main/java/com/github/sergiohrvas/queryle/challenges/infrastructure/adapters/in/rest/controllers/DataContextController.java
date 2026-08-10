@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.response.DataContextResponseDTO;
-import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.mappers.DataContextMapper;
+import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.mappers.DataContextResponseMapper;
 import com.github.sergiohrvas.queryle.challenges.application.usecases.GetDataContextUseCase;
 import com.github.sergiohrvas.queryle.challenges.domain.models.DataContext;
 
@@ -25,7 +25,7 @@ public class DataContextController {
     @GetMapping("/{dataContextId}")
     public ResponseEntity<DataContextResponseDTO> getDataContext(@PathVariable UUID dataContextId) {
         DataContext dataContext = getDataContextUseCase.execute(dataContextId);
-        return ResponseEntity.ok(DataContextMapper.toDTO(dataContext));
+        return ResponseEntity.ok(DataContextResponseMapper.toDTO(dataContext));
     }
 
 }
