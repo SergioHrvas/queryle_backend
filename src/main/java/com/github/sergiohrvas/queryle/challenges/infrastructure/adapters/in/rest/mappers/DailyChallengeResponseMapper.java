@@ -5,7 +5,7 @@ import java.util.Objects;
 import com.github.sergiohrvas.queryle.challenges.domain.models.DailyChallenge;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.response.DailyChallengeResponseDTO;
 
-public interface DailyChallengeMapper {
+public class DailyChallengeResponseMapper {
     public static DailyChallengeResponseDTO toDTO(DailyChallenge dailyChallenge) {
         if (Objects.isNull(dailyChallenge)) return null;
 

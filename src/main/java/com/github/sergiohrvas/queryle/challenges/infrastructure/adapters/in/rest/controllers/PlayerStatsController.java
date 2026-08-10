@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.response.PlayerStatsResponseDTO;
-import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.mappers.PlayerStatsMapper;
+import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.mappers.PlayerStatsResponseMapper;
 import com.github.sergiohrvas.queryle.challenges.application.usecases.GetPlayerStatsUseCase;
 import com.github.sergiohrvas.queryle.challenges.domain.models.PlayerStats;
 
@@ -26,6 +26,6 @@ public class PlayerStatsController {
     @GetMapping
     public ResponseEntity<PlayerStatsResponseDTO> getPlayerStats(@RequestHeader UUID playerId) {
         PlayerStats playerStats = getPlayerStatsUseCase.execute(playerId);
-        return ResponseEntity.ok(PlayerStatsMapper.toDTO(playerStats));
+        return ResponseEntity.ok(PlayerStatsResponseMapper.toDTO(playerStats));
     }
 }
