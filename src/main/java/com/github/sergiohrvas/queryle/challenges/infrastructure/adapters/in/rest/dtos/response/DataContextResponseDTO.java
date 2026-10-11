@@ -6,6 +6,7 @@ public record DataContextResponseDTO(
     UUID id,
     String name,
     String description,
-    String seedScript
+    String sqlSchema,
+    String sqlDataFixture
 ) {
 }

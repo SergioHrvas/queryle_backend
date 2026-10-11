@@ -11,7 +11,7 @@ public class GameResponseMapper {
 
         return new GameResponseDTO(
             game.getId(),
-            game.getStartedDate(),
+            game.getStartedAt(),
             game.getStatus(),
             game.getAttempts().stream().map(AttemptResponseMapper::toDTO).toList()
         );
