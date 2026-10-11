@@ -4,6 +4,7 @@ import com.github.sergiohrvas.queryle.challenges.domain.ports.QueryEvaluatorPort
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Feedback;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.MatchLevel;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Query;
+import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.SeedScript;
 import com.github.sergiohrvas.queryle.challenges.domain.models.DataContext;
 
 import java.sql.Connection;
@@ -31,8 +32,10 @@ public class QueryEvaluatorAdapter implements QueryEvaluatorPort {
         try (Connection connection = DriverManager.getConnection(memDbUrl);
              Statement stmt = connection.createStatement()) {
 
-            // 1. Ejecutar el script DDL/DML del DataContext
-            stmt.execute(dataContext.getSeedScript());
+            SeedScript seedScript = dataContext.getSeedScript();
+
+            executeScript(stmt, seedScript.schema());
+            executeScript(stmt, seedScript.dataFixture());
 
             // 2. Ejecutar la solución esperada
             QueryResult expectedResult = executeQuery(stmt, solutionQuery.value());
@@ -61,7 +64,21 @@ public class QueryEvaluatorAdapter implements QueryEvaluatorPort {
     }
 
     /**
-     * Procesa la consulta SQL en una sola lectura de ResultSet, capturando excepciones de sintaxis.
+     * Executes a SQL script using the provided Statement object.
+     */
+    private void executeScript(Statement stmt, String sql) throws SQLException {
+        // Split the script into individual statements based on semicolons
+        String[] statements = sql.split(";");
+        for (String statement : statements) {
+            String trimmedStatement = statement.trim();
+            if (!trimmedStatement.isEmpty()) {
+                stmt.execute(trimmedStatement);
+            }
+        }
+    }
+
+    /**
+     * Process the SQL query and handle syntax errors.
      */
     private QueryResult executeQuery(Statement stmt, String sql) {
         try (ResultSet rs = stmt.executeQuery(sql)) {
@@ -101,13 +118,10 @@ public class QueryEvaluatorAdapter implements QueryEvaluatorPort {
         if (columns.isEmpty() || columns2.isEmpty()) {
             return MatchLevel.NONE;
         }
-
-        // Exacto: Mismos nombres y exactamente en el mismo orden
         if (columns.equals(columns2)) {
             return MatchLevel.EXACT;
         }
 
-        // Parcial: Al menos una columna del usuario está entre las esperadas
         Set<String> expectedSet = columns2.stream().collect(Collectors.toSet());
         boolean hasAnyMatch = columns.stream().anyMatch(expectedSet::contains);
 
@@ -129,12 +143,10 @@ public class QueryEvaluatorAdapter implements QueryEvaluatorPort {
         Set<Map<String, Object>> userSet = userRows.stream().collect(Collectors.toSet());
         Set<Map<String, Object>> expectedSet = expectedRows.stream().collect(Collectors.toSet());
 
-        // Mismo conjunto de filas (sin importar el orden)
         if (userSet.equals(expectedSet)) {
             return MatchLevel.EXACT;
         }
 
-        // Coincidencia parcial: Al menos una fila es idéntica
         boolean hasCommonRows = userSet.stream().anyMatch(expectedSet::contains);
         return hasCommonRows ? MatchLevel.PARTIAL : MatchLevel.NONE;
     }
@@ -151,17 +163,12 @@ public class QueryEvaluatorAdapter implements QueryEvaluatorPort {
             return MatchLevel.EXACT;
         }
 
-        // PARTIAL: el orden relativo se conserva aunque haya filas intermedias
         List<Map<String, Object>> shorter = userRows.size() <= expectedRows.size() ? userRows : expectedRows;
         List<Map<String, Object>> longer = userRows.size() <= expectedRows.size() ? expectedRows : userRows;
 
         return isRelativeOrderPreserved(shorter, longer) ? MatchLevel.PARTIAL : MatchLevel.NONE;
     }
 
-    /**
-     * Comprueba si {@code subsequence} aparece en {@code sequence} en el mismo orden relativo
-     * (no tiene que ser contiguo).
-     */
     private boolean isRelativeOrderPreserved(
             List<Map<String, Object>> subsequence,
             List<Map<String, Object>> sequence) {

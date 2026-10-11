@@ -23,7 +23,7 @@ public class GameEntityMapper {
             game.getId(),
             game.getPlayerId(),
             game.getDailyChallengeId(),
-            game.getStartedDate(),
+            game.getStartedAt(),
             game.getStatus().name(),
             new ArrayList<>()
         );
@@ -47,7 +47,7 @@ public class GameEntityMapper {
             gameEntity.getId(),
             gameEntity.getPlayerId(),
             gameEntity.getDailyChallengeId(),
-            gameEntity.getStartedDate(),
+            gameEntity.getStartedAt(),
             GameStatus.valueOf(gameEntity.getStatus()),
             attempts
         );
@@ -63,7 +63,7 @@ public class GameEntityMapper {
                 MatchLevel.valueOf(attemptEntity.getRowsDataMatchLevel()),
                 MatchLevel.valueOf(attemptEntity.getRowsOrderMatchLevel())
             ),
-            attemptEntity.getDate()
+            attemptEntity.getSubmittedAt()
         );
     }
 
@@ -71,7 +71,7 @@ public class GameEntityMapper {
         return new AttemptEntity(
             gameEntity,
             attempt.query().value(),
-            attempt.date(),
+            attempt.submittedAt(),
             attempt.feedback().columnsNamesMatchLevel().name(),
             attempt.feedback().columnsCountMatchLevel().name(),
             attempt.feedback().rowsCountMatchLevel().name(),

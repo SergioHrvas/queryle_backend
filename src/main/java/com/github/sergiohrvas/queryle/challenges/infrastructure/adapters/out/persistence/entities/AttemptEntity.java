@@ -28,8 +28,8 @@ public class AttemptEntity {
     @Column(name = "query", nullable = false, length = 2000)
     private String query;
 
-    @Column(name = "date", nullable = false)
-    private LocalDateTime date;
+    @Column(name = "submitted_at", nullable = false)
+    private LocalDateTime submittedAt;
     
     @Column(name = "columns_names_match_level", nullable = false)
     private String columnsNamesMatchLevel;
@@ -46,10 +46,10 @@ public class AttemptEntity {
     @Column(name = "rows_order_match_level", nullable = false)
     private String rowsOrderMatchLevel;
 
-    public AttemptEntity(GameEntity game, String query, LocalDateTime date, String columnsNamesMatchLevel, String columnsCountMatchLevel, String rowsCountMatchLevel, String rowsDataMatchLevel, String rowsOrderMatchLevel) {
+    public AttemptEntity(GameEntity game, String query, LocalDateTime submittedAt, String columnsNamesMatchLevel, String columnsCountMatchLevel, String rowsCountMatchLevel, String rowsDataMatchLevel, String rowsOrderMatchLevel) {
         this.game = game;
         this.query = query;
-        this.date = date;
+        this.submittedAt = submittedAt;
         this.columnsNamesMatchLevel = columnsNamesMatchLevel;
         this.columnsCountMatchLevel = columnsCountMatchLevel;
         this.rowsCountMatchLevel = rowsCountMatchLevel;
@@ -71,8 +71,8 @@ public class AttemptEntity {
         return query;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public LocalDateTime getSubmittedAt() {
+        return submittedAt;
     }
 
     public String getColumnsNamesMatchLevel() {
