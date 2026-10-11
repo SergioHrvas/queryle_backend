@@ -2,7 +2,6 @@ package com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.res
 
 import java.util.Objects;
 
-import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Feedback;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Attempt;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.response.AttemptResponseDTO;
 
@@ -13,7 +12,7 @@ public class AttemptResponseMapper {
         return new AttemptResponseDTO(
             attempt.query().value(),
             FeedbackResponseMapper.toDTO(attempt.feedback()),
-            attempt.date()
+            attempt.submittedAt()
         );
     }
 }

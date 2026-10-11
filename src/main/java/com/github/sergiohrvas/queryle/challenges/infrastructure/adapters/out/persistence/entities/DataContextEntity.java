@@ -19,14 +19,18 @@ public class DataContextEntity {
     @Column(name = "description", nullable = false, length = 1000)
     private String description;
 
-    @Column(name = "seed_script", nullable = false, columnDefinition = "TEXT")
-    private String seedScript;
+    @Column(name = "seed_script_schema", nullable = false, columnDefinition = "TEXT")
+    private String schema;
 
-    public DataContextEntity(UUID id, String name, String description, String seedScript) {
+    @Column(name = "seed_script_data_fixture", nullable = false, columnDefinition = "TEXT")
+    private String dataFixture;
+
+    public DataContextEntity(UUID id, String name, String description, String seedScriptSchema, String seedScriptDataFixture) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.seedScript = seedScript;
+        this.schema = seedScriptSchema;
+        this.dataFixture = seedScriptDataFixture;
     }
     
     protected DataContextEntity() {}
@@ -43,7 +47,11 @@ public class DataContextEntity {
         return description;
     }
 
-    public String getSeedScript() {
-        return seedScript;
+    public String getSchema() {
+        return schema;
+    }
+
+    public String getDataFixture() {
+        return dataFixture   ;
     }
 }

@@ -3,6 +3,7 @@ package com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.pe
 import java.util.Objects;
 
 import com.github.sergiohrvas.queryle.challenges.domain.models.DataContext;
+import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.SeedScript;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.persistence.entities.DataContextEntity;
 
 public class DataContextEntityMapper {
@@ -16,7 +17,8 @@ public class DataContextEntityMapper {
             dataContext.getId(), 
             dataContext.getName(), 
             dataContext.getDescription(), 
-            dataContext.getSeedScript()
+            dataContext.getSeedScript().schema(),
+            dataContext.getSeedScript().dataFixture()
         );
     }
 
@@ -29,7 +31,10 @@ public class DataContextEntityMapper {
             dataContextEntity.getId(),
             dataContextEntity.getName(),
             dataContextEntity.getDescription(),
-            dataContextEntity.getSeedScript()
+            new SeedScript(
+                dataContextEntity.getSchema(),
+                dataContextEntity.getDataFixture()
+            )
         );
     }
 }

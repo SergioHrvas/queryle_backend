@@ -155,10 +155,10 @@ public class PlayerStats {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PlayerStats that = (PlayerStats) o;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (Objects.isNull(obj) || getClass() != obj.getClass()) return false;
+        PlayerStats that = (PlayerStats) obj;
         return playedGames == that.playedGames && wonGames == that.wonGames && lostGames == that.lostGames && currentStreak == that.currentStreak && longestStreak == that.longestStreak && Objects.equals(playerId, that.playerId);
     }
 

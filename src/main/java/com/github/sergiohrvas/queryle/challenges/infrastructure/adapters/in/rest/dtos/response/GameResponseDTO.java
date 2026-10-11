@@ -8,7 +8,7 @@ import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Game
 
 public record GameResponseDTO(
     UUID id,
-    LocalDateTime startedDate,
+    LocalDateTime startedAt,
     GameStatus status,
     List<AttemptResponseDTO> attempts
 ) {
