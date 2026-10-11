@@ -1,38 +1,34 @@
 package com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 import com.github.sergiohrvas.queryle.challenges.domain.exceptions.InvalidQueryException;
 
-public record Query (
-    String value
-) {
-    private static final List<String> FORBIDDEN_COMMANDS = List.of(
-        "insert", "update", "delete", "alter", "drop", 
-        "truncate", "create", "grant", "revoke", "lock", "unlock"
+public record Query (String value) {
+    private static final Pattern FORBIDDEN_PATTERN = Pattern.compile(
+        "\\b(insert|update|delete|alter|drop|truncate|create|grant|revoke|lock|unlock)\\b", 
+        Pattern.CASE_INSENSITIVE
     );
 
     private static final int MAX_QUERY_LENGTH = 1000;
     
-    public Query (String value) {
+    public Query {
         if (Objects.isNull(value)) {
             throw new InvalidQueryException("Value text cannot be null");
         }
 
-        String normalizedQuery = value.trim();
-        if (normalizedQuery.isEmpty()) {
+        value = value.trim();
+        if (value.isBlank()) {
             throw new InvalidQueryException("Value text cannot be empty");
         }
 
-        if (normalizedQuery.length() > MAX_QUERY_LENGTH) {
+        if (value.length() > MAX_QUERY_LENGTH) {
             throw new InvalidQueryException("Query cannot be longer than " + MAX_QUERY_LENGTH + " characters");
         }
 
-        if (FORBIDDEN_COMMANDS.stream().anyMatch(normalizedQuery::contains)) {
+        if (FORBIDDEN_PATTERN.matcher(value).find()) {
             throw new InvalidQueryException("Query cannot contain modifying statements");
         }
-
-        this.value = normalizedQuery;
     }    
 }

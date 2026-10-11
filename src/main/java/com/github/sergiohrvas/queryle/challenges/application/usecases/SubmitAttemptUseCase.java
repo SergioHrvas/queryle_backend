@@ -65,7 +65,7 @@ public class SubmitAttemptUseCase {
         game.addAttempt(gameAttempt);
 
         // 5. Update the player stats
-        if(GameStatus.COMPLETED.equals(game.getStatus())) {
+        if(game.isCompleted()) {
             PlayerStats playerStats = playerStatsPort.findByPlayerId(playerId)
                 .orElseGet(() -> new PlayerStats(playerId));
             

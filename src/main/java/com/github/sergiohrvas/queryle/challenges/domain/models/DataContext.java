@@ -4,19 +4,20 @@ import java.util.Objects;
 import java.util.UUID;
 
 import com.github.sergiohrvas.queryle.challenges.domain.exceptions.InvalidDataContextException;
+import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.SeedScript;
 
 public class DataContext {
 
     private final UUID id;
     private final String name;
     private final String description;
-    private final String seedScript;
+    private final SeedScript seedScript;
 
-    public DataContext(String name, String description, String seedScript) {
+    public DataContext(String name, String description, SeedScript seedScript) {
         this(UUID.randomUUID(), name, description, seedScript);
     }
 
-    public DataContext(UUID id, String name, String description, String seedScript) {
+    public DataContext(UUID id, String name, String description, SeedScript seedScript) {
         validateState(id, name, description, seedScript);
         this.id = id;
         this.name = name;
@@ -36,16 +37,28 @@ public class DataContext {
         return description;
     }
 
-    public String getSeedScript() {
+    public SeedScript getSeedScript() {
         return seedScript;
     }
 
-    private void validateState(UUID id, String name, String description, String seedScript) {
+    private void validateState(UUID id, String name, String description, SeedScript seedScript) {
         if(Objects.isNull(id)){
             throw new InvalidDataContextException("Id cannot be null");
         }
         if(Objects.isNull(name)){
             throw new InvalidDataContextException("Name cannot be null");
+        }
+        if(Objects.isNull(description)){
+            throw new InvalidDataContextException("Description cannot be null");
+        }
+        if(Objects.isNull(seedScript)){
+            throw new InvalidDataContextException("Seed script cannot be null");
+        }
+        if(name.trim().isBlank()){
+            throw new InvalidDataContextException("Name cannot be empty");
+        }
+        if(description.trim().isBlank()){
+            throw new InvalidDataContextException("Description cannot be empty");
         }
     }
 
@@ -57,7 +70,7 @@ public class DataContext {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (Objects.isNull(obj) || getClass() != obj.getClass()) return false;
         DataContext other = (DataContext) obj;
         return Objects.equals(id, other.id);
     }

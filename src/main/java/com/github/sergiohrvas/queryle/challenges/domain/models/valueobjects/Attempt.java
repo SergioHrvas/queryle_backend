@@ -5,14 +5,14 @@ import java.util.Objects;
 
 import com.github.sergiohrvas.queryle.challenges.domain.exceptions.InvalidAttemptException;
 
-public record Attempt(Query query, Feedback feedback, LocalDateTime date) {
+public record Attempt(Query query, Feedback feedback, LocalDateTime submittedAt) {
     public Attempt {
         if (Objects.isNull(query)) {
             throw new InvalidAttemptException("Query cannot be null");
         }
 
-        if(Objects.isNull(date)){
-            throw new InvalidAttemptException("Date cannot be null");
+        if(Objects.isNull(submittedAt)){
+            throw new InvalidAttemptException("Submitted date cannot be null");
         }
 
         if(Objects.isNull(feedback)) {

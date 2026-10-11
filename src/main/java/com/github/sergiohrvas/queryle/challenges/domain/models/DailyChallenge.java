@@ -91,10 +91,10 @@ public class DailyChallenge {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        DailyChallenge that = (DailyChallenge) o;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (Objects.isNull(obj) || getClass() != obj.getClass()) return false;
+        DailyChallenge that = (DailyChallenge) obj;
         return Objects.equals(id, that.id);
     }
 
