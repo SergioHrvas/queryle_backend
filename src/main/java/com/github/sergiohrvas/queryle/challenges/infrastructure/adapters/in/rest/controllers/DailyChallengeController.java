@@ -19,22 +19,22 @@ import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.response.DailyChallengeGameResponseDTO;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.response.GameResponseDTO;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.mappers.DailyChallengeGameResponseMapper;
-import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.mappers.GameResponseMapper;
 import com.github.sergiohrvas.queryle.challenges.application.dtos.DailyChallengeGameDTO;
 import com.github.sergiohrvas.queryle.challenges.application.usecases.GetDailyChallengeUseCase;
 import com.github.sergiohrvas.queryle.challenges.application.usecases.GetDailyChallengesUseCase;
-import com.github.sergiohrvas.queryle.challenges.application.usecases.SubmitAttemptUseCase;
+import com.github.sergiohrvas.queryle.challenges.application.commands.SubmitAttemptCommand;
+import com.github.sergiohrvas.queryle.challenges.application.commands.SubmitAttemptCommandHandler;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Difficulty;
 
 @RestController
 @RequestMapping("/api/v1/challenges")
 public class DailyChallengeController {
-    private final SubmitAttemptUseCase submitAttemptUseCase;
+    private final SubmitAttemptCommandHandler submitAttemptCommandHandler;
     private final GetDailyChallengeUseCase getDailyChallengeUseCase;
     private final GetDailyChallengesUseCase getDailyChallengesUseCase;
 
-    public DailyChallengeController(SubmitAttemptUseCase submitAttemptUseCase, GetDailyChallengeUseCase getDailyChallengeUseCase, GetDailyChallengesUseCase getDailyChallengesUseCase) {
-        this.submitAttemptUseCase = submitAttemptUseCase;
+    public DailyChallengeController(SubmitAttemptCommandHandler submitAttemptCommandHandler, GetDailyChallengeUseCase getDailyChallengeUseCase, GetDailyChallengesUseCase getDailyChallengesUseCase) {
+        this.submitAttemptCommandHandler = submitAttemptCommandHandler;
         this.getDailyChallengeUseCase = getDailyChallengeUseCase;
         this.getDailyChallengesUseCase = getDailyChallengesUseCase;
     }
@@ -49,7 +49,9 @@ public class DailyChallengeController {
 
     @PostMapping("/{dailyChallengeId}/submit-attempt")
     public ResponseEntity<GameResponseDTO> submitAttempt(@PathVariable UUID dailyChallengeId, @RequestHeader UUID playerId, @RequestBody SubmitAttemptRequestDTO request) {
-        return ResponseEntity.ok(GameResponseMapper.toDTO(submitAttemptUseCase.execute(playerId, dailyChallengeId, request.query())));
+        SubmitAttemptCommand command = new SubmitAttemptCommand(request.query(), playerId.toString(), dailyChallengeId.toString());
+        submitAttemptCommandHandler.handle(command);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/today")
