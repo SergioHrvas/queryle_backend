@@ -33,7 +33,7 @@ INSERT INTO daily_challenges (id, formulation, query, difficulty, publication_da
     'Lista todos los pedidos que ya han sido entregados.',
     'SELECT * FROM pedidos_pizza WHERE estado = ''Entregado'';',
     'EASY',
-    DATE '2026-08-10',
+    CURRENT_DATE,
     'db14245f-7334-4268-a821-4663d5529da8',
     1
 );
@@ -45,7 +45,7 @@ INSERT INTO daily_challenges (id, formulation, query, difficulty, publication_da
     'Muestra el cliente, la pizza y el precio de los pedidos de tamaño Familiar, ordenados de más caro a más barato.',
     'SELECT cliente, pizza, precio FROM pedidos_pizza WHERE tamano = ''Familiar'' ORDER BY precio DESC;',
     'MEDIUM',
-    DATE '2026-08-10',
+    CURRENT_DATE,
     'db14245f-7334-4268-a821-4663d5529da8',
     2
 );
@@ -56,7 +56,7 @@ INSERT INTO daily_challenges (id, formulation, query, difficulty, publication_da
     'Calcula cuántos pedidos hay por estado, ordenados alfabéticamente por estado.',
     'SELECT estado, COUNT(*) AS total FROM pedidos_pizza GROUP BY estado ORDER BY estado;',
     'HARD',
-    DATE '2026-08-10',
+    CURRENT_DATE,
     'db14245f-7334-4268-a821-4663d5529da8',
     3
 );
