@@ -17,7 +17,7 @@ import com.github.sergiohrvas.queryle.challenges.domain.ports.DailyChallengePort
 import com.github.sergiohrvas.queryle.challenges.domain.ports.DataContextPort;
 import com.github.sergiohrvas.queryle.challenges.domain.ports.GamePort;
 import com.github.sergiohrvas.queryle.challenges.domain.ports.PlayerStatsPort;
-import com.github.sergiohrvas.queryle.challenges.domain.ports.QueryEvaluatorPort;
+import com.github.sergiohrvas.queryle.challenges.domain.services.QueryEvaluatorService;
 
 import jakarta.transaction.Transactional;
 
@@ -28,10 +28,10 @@ public class SubmitAttemptCommandHandler {
     private final DailyChallengePort dailyChallengePort;
     private final DataContextPort dataContextPort;
     private final GamePort gamePort;
-    private final QueryEvaluatorPort queryEvaluator;
+    private final QueryEvaluatorService queryEvaluator;
 
     public SubmitAttemptCommandHandler(PlayerStatsPort playerStatsPort, DailyChallengePort dailyChallengePort,
-            DataContextPort dataContextPort, GamePort gamePort, QueryEvaluatorPort queryEvaluator) {
+            DataContextPort dataContextPort, GamePort gamePort, QueryEvaluatorService queryEvaluator) {
         this.playerStatsPort = playerStatsPort;
         this.dailyChallengePort = dailyChallengePort;
         this.dataContextPort = dataContextPort;
