@@ -1,4 +1,4 @@
-INSERT INTO data_contexts (id, name, description, seed_script) VALUES (
+INSERT INTO data_contexts (id, name, description, seed_script_schema, seed_script_data_fixture) VALUES (
     'db14245f-7334-4268-a821-4663d5529da8',
     'Pizza shop',
     'Pizza shop description',
@@ -13,8 +13,8 @@ INSERT INTO data_contexts (id, name, description, seed_script) VALUES (
         estado VARCHAR(20) DEFAULT ''Pendiente'',
         fecha_pedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
-
-    INSERT INTO pedidos_pizza (cliente, pizza, tamano, tipo_masa, anadidos, precio, estado, fecha_pedido) VALUES
+    ',
+    'INSERT INTO pedidos_pizza (cliente, pizza, tamano, tipo_masa, anadidos, precio, estado, fecha_pedido) VALUES
         (''Carlos Gómez'', ''Margarita'', ''Mediana'', ''Tradicional'', ''Extra queso'', 9.50, ''Entregado'', ''2026-08-02 19:15:00''),
         (''Ana Martínez'', ''Barbacoa'', ''Familiar'', ''Rellena de queso'', ''Bacon extra, Cebolla caramelizada'', 14.50, ''En camino'', ''2026-08-02 20:00:00''),
         (''Luis Fernández'', ''Cuatro Quesos'', ''Mediana'', ''Fina'', ''Bordes rellenos de queso'', 12.50, ''En preparación'', ''2026-08-02 20:20:00''),
