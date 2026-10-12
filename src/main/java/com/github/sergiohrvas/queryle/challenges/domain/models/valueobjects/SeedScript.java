@@ -30,8 +30,8 @@ public record SeedScript (String schema, String dataFixture){
             throw new InvalidSeedScriptException("Data fixture cannot be empty");
         }
 
-        schema = schema.trim().toLowerCase();
-        dataFixture = dataFixture.trim().toLowerCase();
+        schema = schema.trim();
+        dataFixture = dataFixture.trim();
 
         if (FORBIDDEN_IN_SCHEMA.matcher(schema).find()) {
             throw new InvalidSeedScriptException("Schema cannot contain modifying statements");

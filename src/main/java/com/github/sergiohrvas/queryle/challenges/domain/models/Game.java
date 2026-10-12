@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.github.sergiohrvas.queryle.challenges.domain.events.GameCompletedEvent;
 import com.github.sergiohrvas.queryle.challenges.domain.exceptions.InvalidGameException;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Attempt;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.GameStatus;
@@ -21,6 +22,8 @@ public class Game {
     private final LocalDateTime startedAt;
     private GameStatus status;
     private final List<Attempt> attempts;
+
+    private final List<GameCompletedEvent> domainEvents = new ArrayList<>();
 
     public Game (UUID playerId, UUID dailyChallengeId, LocalDateTime startedAt){
         this(UUID.randomUUID(), playerId, dailyChallengeId, startedAt, GameStatus.IN_PROGRESS, new ArrayList<>());
@@ -37,11 +40,16 @@ public class Game {
     }
 
     public void addAttempt(Attempt attempt){
-        validateCanAddAttempt(attempt);
-        
+        validateCanAddAttempt(attempt);        
         attempts.add(attempt);
-        
         updateStatus(attempt);
+        if (this.isCompleted()) {
+            domainEvents.add(new GameCompletedEvent(
+                this.playerId,
+                this.dailyChallengeId,
+                this.isWon()
+            ));
+        }
     }
 
     private void updateStatus(Attempt attempt){
@@ -187,6 +195,12 @@ public class Game {
         if (status == GameStatus.IN_PROGRESS && attempts.size() == MAX_ALLOWED_ATTEMPTS && !hasCorrectAttempt) {
             throw new InvalidGameException("An in-progress game cannot have the maximum number of failed attempts");
         }
+    }
+    
+    public List<GameCompletedEvent> pullDomainEvents() {
+        List<GameCompletedEvent> events = new ArrayList<>(domainEvents);
+        domainEvents.clear();
+        return events;
     }
 
     @Override
