@@ -28,7 +28,7 @@ public class DataContext {
         this.description = description;
         this.schema = schema;
         this.publicDataset = publicDataset;
-        this.privateDatasets = privateDatasets;
+        this.privateDatasets = List.copyOf(privateDatasets);
     }
 
     public UUID getId() {

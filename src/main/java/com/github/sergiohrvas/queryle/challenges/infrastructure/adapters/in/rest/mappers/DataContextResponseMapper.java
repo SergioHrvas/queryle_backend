@@ -13,8 +13,8 @@ public class DataContextResponseMapper {
             dataContext.getId(),
             dataContext.getName(),
             dataContext.getDescription(),
-            dataContext.getSeedScript().schema(),
-            dataContext.getSeedScript().dataFixture()
+            dataContext.getSchema().schema(),
+            dataContext.getPublicDataset().dataFixture()
         );
     }
 }

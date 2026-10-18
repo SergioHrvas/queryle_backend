@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 import com.github.sergiohrvas.queryle.challenges.domain.exceptions.InvalidSchemaException;
 
-public record Schema(String value) {
+public record Schema(String schema) {
 
     private static final Pattern FORBIDDEN_STATEMENTS = Pattern.compile(
         "\\b(insert|update|delete|drop|truncate|grant|revoke|lock|unlock)\\b",
@@ -13,13 +13,13 @@ public record Schema(String value) {
     );
 
     public Schema {
-        if (Objects.isNull(value) || value.trim().isBlank()) {
+        if (Objects.isNull(schema) || schema.trim().isBlank()) {
             throw new InvalidSchemaException("Schema cannot be null or empty");
         }
 
-        value = value.trim();
+        schema = schema.trim();
 
-        if (FORBIDDEN_STATEMENTS.matcher(value).find()) {
+        if (FORBIDDEN_STATEMENTS.matcher(schema).find()) {
             throw new InvalidSchemaException(
                 "Schema contains forbidden statements"
             );

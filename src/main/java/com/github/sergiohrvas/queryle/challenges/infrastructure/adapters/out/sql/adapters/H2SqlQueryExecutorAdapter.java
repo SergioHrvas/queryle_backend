@@ -4,7 +4,8 @@ import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.sql
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Query;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.QueryExecutionStatus;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.QueryResult;
-import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.SeedScript;
+import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Schema;
+import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Dataset;
 import com.github.sergiohrvas.queryle.challenges.domain.ports.SqlQueryExecutorPort;
 import com.github.sergiohrvas.queryle.challenges.domain.models.DataContext;
 
@@ -32,10 +33,11 @@ public class H2SqlQueryExecutorAdapter implements SqlQueryExecutorPort {
         try (Connection connection = DriverManager.getConnection(memDbUrl);
              Statement stmt = connection.createStatement()) {
 
-            SeedScript seedScript = dataContext.getSeedScript();
+            Schema schema = dataContext.getSchema();
+            Dataset publicDataset = dataContext.getPublicDataset();
 
-            executeScript(stmt, seedScript.schema());
-            executeScript(stmt, seedScript.dataFixture());
+            executeScript(stmt, schema.schema());
+            executeScript(stmt, publicDataset.dataFixture());
 
             return executeQuery(stmt, query.value());
         } catch (SQLException e) {

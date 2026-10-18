@@ -1,10 +1,17 @@
 package com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.persistence.entities;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OrderColumn;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,18 +26,38 @@ public class DataContextEntity {
     @Column(name = "description", nullable = false, length = 1000)
     private String description;
 
-    @Column(name = "seed_script_schema", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "schema", nullable = false, columnDefinition = "TEXT")
     private String schema;
 
-    @Column(name = "seed_script_data_fixture", nullable = false, columnDefinition = "TEXT")
-    private String dataFixture;
+    @Column(name = "public_dataset", nullable = false, columnDefinition = "TEXT")
+    private String publicDataset;
 
-    public DataContextEntity(UUID id, String name, String description, String seedScriptSchema, String seedScriptDataFixture) {
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(
+        name = "data_context_private_datasets",
+        joinColumns = @JoinColumn(name = "data_context_id")
+    )
+    @Column(
+        name = "data_fixture",
+        nullable = false,
+        columnDefinition = "TEXT"
+    )
+    private List<String> privateDatasets = new ArrayList<>();
+
+    public DataContextEntity(
+        UUID id, 
+        String name, 
+        String description, 
+        String schema, 
+        String publicDataset, 
+        List<String> privateDatasets
+    ) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.schema = seedScriptSchema;
-        this.dataFixture = seedScriptDataFixture;
+        this.schema = schema;
+        this.publicDataset = publicDataset;
+        this.privateDatasets = new ArrayList<>(privateDatasets);
     }
     
     protected DataContextEntity() {}
@@ -51,7 +78,11 @@ public class DataContextEntity {
         return schema;
     }
 
-    public String getDataFixture() {
-        return dataFixture   ;
+    public String getPublicDataset() {
+        return publicDataset   ;
+    }
+    
+    public List<String> getPrivateDatasets() {
+        return List.copyOf(privateDatasets);
     }
 }

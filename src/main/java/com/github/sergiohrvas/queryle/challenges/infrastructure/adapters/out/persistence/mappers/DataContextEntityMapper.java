@@ -1,9 +1,11 @@
 package com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.persistence.mappers;
 
+import java.util.List;
 import java.util.Objects;
 
 import com.github.sergiohrvas.queryle.challenges.domain.models.DataContext;
-import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.SeedScript;
+import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Dataset;
+import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Schema;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.persistence.entities.DataContextEntity;
 
 public class DataContextEntityMapper {
@@ -12,13 +14,19 @@ public class DataContextEntityMapper {
         if(Objects.isNull(dataContext)) {
             throw new IllegalArgumentException("Data context cannot be null");
         }
-
+        
+        List<String> privateDatasets = dataContext.getPrivateDatasets()
+            .stream()
+            .map(Dataset::dataFixture)
+            .toList();
+            
         return new DataContextEntity(
             dataContext.getId(), 
             dataContext.getName(), 
             dataContext.getDescription(), 
-            dataContext.getSeedScript().schema(),
-            dataContext.getSeedScript().dataFixture()
+            dataContext.getSchema().schema(),
+            dataContext.getPublicDataset().dataFixture(),
+            privateDatasets
         );
     }
 
@@ -27,14 +35,22 @@ public class DataContextEntityMapper {
             throw new IllegalArgumentException("Data context entity cannot be null");
         }
 
+        List<Dataset> privateDatasets = dataContextEntity.getPrivateDatasets()
+            .stream()
+            .map(Dataset::new)
+            .toList();
+
         return new DataContext(
             dataContextEntity.getId(),
             dataContextEntity.getName(),
             dataContextEntity.getDescription(),
-            new SeedScript(
-                dataContextEntity.getSchema(),
-                dataContextEntity.getDataFixture()
-            )
+            new Schema(
+                dataContextEntity.getSchema()
+            ),
+            new Dataset(
+                dataContextEntity.getPublicDataset()
+            ),
+            privateDatasets
         );
     }
 }
