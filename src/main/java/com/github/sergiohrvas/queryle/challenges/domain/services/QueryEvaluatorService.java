@@ -46,6 +46,11 @@ public class QueryEvaluatorService {
 
         Feedback feedback = matcher.match(actual, expected);
 
+
+        if (!feedback.isAllExact()) {
+            return new QueryEvaluation(feedback, false);
+        }
+
         boolean validationPassed = validateAgainstPrivateDatasets(
             submittedQuery,
             expectedQuery,
@@ -53,7 +58,7 @@ public class QueryEvaluatorService {
         );
 
         return new QueryEvaluation(
-            feedback,
+            validationPassed ? feedback : noMatch(),
             validationPassed
         );
     }
