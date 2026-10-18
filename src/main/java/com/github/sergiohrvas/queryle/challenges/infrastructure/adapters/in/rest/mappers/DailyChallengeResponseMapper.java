@@ -12,8 +12,7 @@ public class DailyChallengeResponseMapper {
         return new DailyChallengeResponseDTO(
             dailyChallenge.getId(),
             dailyChallenge.getFormulation(), 
-            dailyChallenge.getDataContextId(),
-            dailyChallenge.getSequence()
+            dailyChallenge.getDataContextId()
         );
     }
 }

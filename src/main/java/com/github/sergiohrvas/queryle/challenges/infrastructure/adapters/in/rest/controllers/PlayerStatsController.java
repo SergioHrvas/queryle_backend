@@ -7,25 +7,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.response.PlayerStatsResponseDTO;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.mappers.PlayerStatsResponseMapper;
-import com.github.sergiohrvas.queryle.challenges.application.usecases.GetPlayerStatsUseCase;
-import com.github.sergiohrvas.queryle.challenges.domain.models.PlayerStats;
+import com.github.sergiohrvas.queryle.challenges.application.dtos.PlayerStatsReadModel;
+import com.github.sergiohrvas.queryle.challenges.application.queries.GetPlayerStatsQueryHandler;
 
 @RestController
 @RequestMapping("/api/v1/player-stats")
 public class PlayerStatsController {
-    private final GetPlayerStatsUseCase getPlayerStatsUseCase;
+    private final GetPlayerStatsQueryHandler getPlayerStatsQueryHandler;
 
-    public PlayerStatsController(GetPlayerStatsUseCase getPlayerStatsUseCase) {
-        this.getPlayerStatsUseCase = getPlayerStatsUseCase;
+    public PlayerStatsController(GetPlayerStatsQueryHandler getPlayerStatsQueryHandler) {
+        this.getPlayerStatsQueryHandler = getPlayerStatsQueryHandler;
     }
 
-    @GetMapping
-    public ResponseEntity<PlayerStatsResponseDTO> getPlayerStats(@RequestHeader UUID playerId) {
-        PlayerStats playerStats = getPlayerStatsUseCase.execute(playerId);
+    @GetMapping("/{playerId}")
+    public ResponseEntity<PlayerStatsResponseDTO> getPlayerStats(@PathVariable UUID playerId) {
+        PlayerStatsReadModel playerStats = getPlayerStatsQueryHandler.handle(playerId);
         return ResponseEntity.ok(PlayerStatsResponseMapper.toDTO(playerStats));
     }
 }

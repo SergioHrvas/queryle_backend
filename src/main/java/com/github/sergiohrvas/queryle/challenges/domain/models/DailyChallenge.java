@@ -15,32 +15,26 @@ public class DailyChallenge {
     private final Difficulty difficulty;
     private final LocalDate publicationDate;
     private final UUID dataContextId;
-    private final int sequence;
     
     public DailyChallenge(String formulation, Query query, Difficulty difficulty, LocalDate publicationDate, UUID dataContextId) {
-        this(UUID.randomUUID(), formulation, query, 0, difficulty, publicationDate, dataContextId);
+        this(UUID.randomUUID(), formulation, query, difficulty, publicationDate, dataContextId);
     }
 
-    public DailyChallenge(UUID id, String formulation, Query query, int sequence, Difficulty difficulty, LocalDate publicationDate, UUID dataContextId) {
-        validateState(id, formulation, query, sequence, difficulty, publicationDate, dataContextId);
+    public DailyChallenge(UUID id, String formulation, Query query, Difficulty difficulty, LocalDate publicationDate, UUID dataContextId) {
+        validateState(id, formulation, query, difficulty, publicationDate, dataContextId);
         this.id = id;
         this.formulation = formulation;
         this.query = query;
-        this.sequence = sequence;
         this.difficulty = difficulty;
         this.publicationDate = publicationDate;
         this.dataContextId = dataContextId;
     }
 
-    private void validateState(UUID id, String formulation, Query query, int sequence, Difficulty difficulty, LocalDate publicationDate, UUID dataContextId) {
+    private void validateState(UUID id, String formulation, Query query, Difficulty difficulty, LocalDate publicationDate, UUID dataContextId) {
         if(Objects.isNull(id)){
             throw new InvalidDailyChallengeException("Challenge ID cannot be null");
         }
-
-        if(sequence < 0){
-            throw new InvalidDailyChallengeException("Sequence cannot be negative");
-        }
-
+        
         if(Objects.isNull(formulation) || formulation.trim().isEmpty()){
             throw new InvalidDailyChallengeException("Formulation cannot be null or empty");
         }
@@ -74,10 +68,6 @@ public class DailyChallenge {
         return query;
     }
 
-    public int getSequence(){
-        return sequence;
-    }
-
     public LocalDate getPublicationDate(){
         return publicationDate;
     }
@@ -105,6 +95,6 @@ public class DailyChallenge {
 
     @Override
     public String toString() {
-        return "DailyChallenge [id=" + id + ", formulation=" + formulation + ", query=" + query + ", difficulty=" + difficulty + ", publicationDate=" + publicationDate + ", dataContextId=" + dataContextId + ", sequence=" + sequence + "]";
+        return "DailyChallenge [id=" + id + ", formulation=" + formulation + ", query=" + query + ", difficulty=" + difficulty + ", publicationDate=" + publicationDate + ", dataContextId=" + dataContextId + "]";
     }
 }

@@ -8,8 +8,6 @@ public record PlayerStatsResponseDTO(
     int wonGames,
     int lostGames,
     int currentStreak,
-    int longestStreak,
-    double winRate,
-    double lossRate
+    int longestStreak
 ) {
 }
