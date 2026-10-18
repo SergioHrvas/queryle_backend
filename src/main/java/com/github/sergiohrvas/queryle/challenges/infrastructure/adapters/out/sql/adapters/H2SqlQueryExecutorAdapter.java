@@ -7,7 +7,6 @@ import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Quer
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Schema;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Dataset;
 import com.github.sergiohrvas.queryle.challenges.domain.ports.SqlQueryExecutorPort;
-import com.github.sergiohrvas.queryle.challenges.domain.models.DataContext;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -27,22 +26,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class H2SqlQueryExecutorAdapter implements SqlQueryExecutorPort {
     @Override
-    public QueryResult execute(Query query, DataContext dataContext) {
+    public QueryResult execute(Query query, Schema schema, Dataset dataset) {
         String memDbUrl = "jdbc:h2:mem:eval_" + UUID.randomUUID().toString().replace("-", "") + ";DB_CLOSE_DELAY=0";
         
         try (Connection connection = DriverManager.getConnection(memDbUrl);
              Statement stmt = connection.createStatement()) {
 
-            Schema schema = dataContext.getSchema();
-            Dataset publicDataset = dataContext.getPublicDataset();
-
             executeScript(stmt, schema.schema());
-            executeScript(stmt, publicDataset.dataFixture());
+            executeScript(stmt, dataset.dataFixture());
 
             return executeQuery(stmt, query.value());
         } catch (SQLException e) {
             throw new SqlQueryExecutionException(
-                "Could not execute query for data context " + dataContext.getId(), e
+                "Could not prepare SQL execution environment"
             );
         }
     }

@@ -2,9 +2,13 @@ package com.github.sergiohrvas.queryle.challenges.domain.services;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import com.github.sergiohrvas.queryle.challenges.domain.exceptions.InvalidDataContextException;
 import com.github.sergiohrvas.queryle.challenges.domain.models.DataContext;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Feedback;
+import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Schema;
+import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Dataset;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.MatchLevel;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Query;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.QueryExecutionStatus;
@@ -26,22 +30,73 @@ public class QueryEvaluatorService {
         Query expectedQuery,
         DataContext dataContext
     ){
-        QueryResult expected = executor.execute(expectedQuery, dataContext);
-        QueryResult actual = executor.execute(submittedQuery, dataContext);
+        Schema schema = dataContext.getSchema();
+        Dataset publicDataset = dataContext.getPublicDataset();
+
+        QueryResult expected = executor.execute(expectedQuery, schema, publicDataset);
+        QueryResult actual = executor.execute(submittedQuery, schema, publicDataset);
 
         if(expected.status() == QueryExecutionStatus.INVALID_QUERY){
             throw new InvalidDataContextException("The expected query is invalid for the given data context.");
         }
         if (actual.status() == QueryExecutionStatus.INVALID_QUERY) {
-            return new Feedback(
-                MatchLevel.NONE,
-                MatchLevel.NONE,
-                MatchLevel.NONE,
-                MatchLevel.NONE,
-                MatchLevel.NONE
-            );
+            return noMatch();
         }
 
-        return matcher.match(actual, expected);
+        Feedback feedback = matcher.match(actual, expected);
+        
+        if (!feedback.isAllExact()) {
+            return feedback;
+        }
+
+        boolean passesValidation = validateAgainstPrivateDatasets(
+            submittedQuery,
+            expectedQuery,
+            dataContext
+        );
+
+        if(!passesValidation){
+            return noMatch();
+        }
+
+        return feedback;
+    }
+
+    private Feedback noMatch() {
+        return new Feedback(
+            MatchLevel.NONE,
+            MatchLevel.NONE,
+            MatchLevel.NONE,
+            MatchLevel.NONE,
+            MatchLevel.NONE
+        );
+    }
+    
+    private boolean validateAgainstPrivateDatasets(
+        Query submittedQuery,
+        Query expectedQuery,
+        DataContext dataContext
+    ) {
+        Schema schema = dataContext.getSchema();
+        List<Dataset> privateDatasets = dataContext.getPrivateDatasets();
+
+        for (Dataset privateDataset : privateDatasets) {
+            QueryResult expected = executor.execute(expectedQuery, schema, privateDataset);
+            QueryResult actual = executor.execute(submittedQuery, schema, privateDataset);
+
+            if(expected.status() == QueryExecutionStatus.INVALID_QUERY){
+                throw new InvalidDataContextException("The expected query is invalid for the given data context.");
+            }
+            if (actual.status() == QueryExecutionStatus.INVALID_QUERY) {
+                return false;
+            }
+
+            Feedback feedback = matcher.match(actual, expected);
+            if (!feedback.isAllExact()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
