@@ -11,6 +11,7 @@ import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Sche
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Dataset;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.MatchLevel;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Query;
+import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.QueryEvaluation;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.QueryExecutionStatus;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.QueryResult;
 import com.github.sergiohrvas.queryle.challenges.domain.ports.SqlQueryExecutorPort;
@@ -25,7 +26,7 @@ public class QueryEvaluatorService {
         this.matcher = matcher;
     }
 
-    public Feedback evaluate (
+    public QueryEvaluation evaluate (
         Query submittedQuery,
         Query expectedQuery,
         DataContext dataContext
@@ -40,26 +41,21 @@ public class QueryEvaluatorService {
             throw new InvalidDataContextException("The expected query is invalid for the given data context.");
         }
         if (actual.status() == QueryExecutionStatus.INVALID_QUERY) {
-            return noMatch();
+            return new QueryEvaluation(noMatch(), false);
         }
 
         Feedback feedback = matcher.match(actual, expected);
-        
-        if (!feedback.isAllExact()) {
-            return feedback;
-        }
 
-        boolean passesValidation = validateAgainstPrivateDatasets(
+        boolean validationPassed = validateAgainstPrivateDatasets(
             submittedQuery,
             expectedQuery,
             dataContext
         );
 
-        if(!passesValidation){
-            return noMatch();
-        }
-
-        return feedback;
+        return new QueryEvaluation(
+            feedback,
+            validationPassed
+        );
     }
 
     private Feedback noMatch() {
