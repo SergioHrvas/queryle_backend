@@ -28,18 +28,14 @@ public class DailyChallengeEntity {
 
     @Column(name = "data_context_id", nullable = false)
     private UUID dataContextId;
-
-    @Column(name = "sequence", nullable = false)
-    private int sequence;
     
-    public DailyChallengeEntity(UUID id, String formulation, String query, String difficulty, LocalDate publicationDate, UUID dataContextId, int sequence) {
+    public DailyChallengeEntity(UUID id, String formulation, String query, String difficulty, LocalDate publicationDate, UUID dataContextId) {
         this.id = id;
         this.formulation = formulation;
         this.query = query;
         this.difficulty = difficulty;
         this.publicationDate = publicationDate;
         this.dataContextId = dataContextId;
-        this.sequence = sequence;
     }
 
     protected DailyChallengeEntity() {}
@@ -66,9 +62,5 @@ public class DailyChallengeEntity {
     
     public UUID getDataContextId() {
         return dataContextId;
-    }
-
-    public int getSequence() {
-        return sequence;
     }
 }

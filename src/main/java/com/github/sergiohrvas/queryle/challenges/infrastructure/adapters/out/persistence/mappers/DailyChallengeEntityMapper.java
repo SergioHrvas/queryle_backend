@@ -20,9 +20,8 @@ public class DailyChallengeEntityMapper {
             dailyChallenge.getQuery().value(),
             dailyChallenge.getDifficulty().name(),
             dailyChallenge.getPublicationDate(),
-            dailyChallenge.getDataContextId(),
-            dailyChallenge.getSequence()
-        );
+            dailyChallenge.getDataContextId()
+       );
     }
 
     public static DailyChallenge toDomain(DailyChallengeEntity dailyChallengeEntity) {
@@ -34,7 +33,6 @@ public class DailyChallengeEntityMapper {
             dailyChallengeEntity.getId(),
             dailyChallengeEntity.getFormulation(),
             new Query(dailyChallengeEntity.getQuery()),
-            dailyChallengeEntity.getSequence(),
             Difficulty.valueOf(dailyChallengeEntity.getDifficulty()),
             dailyChallengeEntity.getPublicationDate(),
             dailyChallengeEntity.getDataContextId()

@@ -5,7 +5,6 @@ import java.util.UUID;
 public record DailyChallengeResponseDTO(
     UUID id,
     String formulation,
-    UUID dataContextId,
-    int sequence
+    UUID dataContextId
 ) {
 }
