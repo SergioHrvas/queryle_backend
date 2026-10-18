@@ -1,4 +1,4 @@
-INSERT INTO data_contexts (id, name, description, seed_script_schema, seed_script_data_fixture) VALUES (
+INSERT INTO data_contexts (id, name, description, schema, public_dataset) VALUES (
     'db14245f-7334-4268-a821-4663d5529da8',
     'Pizza shop',
     'Pizza shop description',
@@ -27,7 +27,21 @@ INSERT INTO data_contexts (id, name, description, seed_script_schema, seed_scrip
         (''Lucía Blanco'', ''Cuatro Estaciones'', ''Familiar'', ''Tradicional'', ''Extra pepperoni'', 14.00, ''Entregado'', ''2026-08-02 19:00:00'');'
 );
 
--- EASY: filtro simple (4 filas: Carlos, Diego, Elena, Lucía)
+INSERT INTO data_context_private_datasets (data_context_id, data_fixture) VALUES
+(
+    'db14245f-7334-4268-a821-4663d5529da8',
+    'INSERT INTO pedidos_pizza (cliente, pizza, tamano, tipo_masa, anadidos, precio, estado, fecha_pedido) VALUES
+        (''Laura Sánchez'', ''Margarita'', ''Mediana'', ''Tradicional'', ''Extra queso'', 9.50, ''Entregado'', ''2026-08-03 19:10:00''),
+        (''Miguel Castro'', ''Barbacoa'', ''Familiar'', ''Fina'', ''Bacon extra'', 14.50, ''En camino'', ''2026-08-03 19:35:00''),
+        (''Nora Vidal'', ''Vegetariana'', ''Personal'', ''Integral'', ''Aceitunas'', 8.00, ''Pendiente'', ''2026-08-03 20:00:00'');'
+),
+(
+    'db14245f-7334-4268-a821-4663d5529da8',
+    'INSERT INTO pedidos_pizza (cliente, pizza, tamano, tipo_masa, anadidos, precio, estado, fecha_pedido) VALUES
+        (''Raúl Martín'', ''Pepperoni'', ''Familiar'', ''Gruesa'', ''Extra pepperoni'', 15.00, ''Entregado'', ''2026-08-04 18:45:00''),
+        (''Clara Ortega'', ''Cuatro Quesos'', ''Mediana'', ''Tradicional'', ''Bordes rellenos de queso'', 12.50, ''En preparación'', ''2026-08-04 19:20:00'');'
+);
+
 INSERT INTO daily_challenges (id, formulation, query, difficulty, publication_date, data_context_id) VALUES (
     'e8d68ad2-3907-4d1a-8d68-8976176cfa0e',
     'Lista todos los pedidos que ya han sido entregados.',
@@ -37,8 +51,6 @@ INSERT INTO daily_challenges (id, formulation, query, difficulty, publication_da
     'db14245f-7334-4268-a821-4663d5529da8'
 );
 
--- MEDIUM: proyección + filtro + ORDER BY
--- Familiar: Ana 14.50, Lucía 14.00, Javier 13.50, Diego 13.00
 INSERT INTO daily_challenges (id, formulation, query, difficulty, publication_date, data_context_id) VALUES (
     'a1b2c3d4-1111-4222-8333-444455556666',
     'Muestra el cliente, la pizza y el precio de los pedidos de tamaño Familiar, ordenados de más caro a más barato.',
@@ -48,7 +60,6 @@ INSERT INTO daily_challenges (id, formulation, query, difficulty, publication_da
     'db14245f-7334-4268-a821-4663d5529da8'
 );
 
--- HARD: agregación
 INSERT INTO daily_challenges (id, formulation, query, difficulty, publication_date, data_context_id) VALUES (
     'b2c3d4e5-2222-4333-8444-555566667777',
     'Calcula cuántos pedidos hay por estado, ordenados alfabéticamente por estado.',
@@ -85,13 +96,13 @@ INSERT INTO games (id, player_id, daily_challenge_id, started_at, status) VALUES
 INSERT INTO attempts (
     id, game_id, query, submitted_at, columns_names_match_level,
     columns_count_match_level, rows_count_match_level,
-    rows_data_match_level, rows_order_match_level
+    rows_data_match_level, rows_order_match_level, validation_passed
 ) VALUES
-    ('20000000-0000-0000-0000-000000000010', '10000000-0000-0000-0000-000000000010', 'SELECT 10', DATEADD('DAY', -6, CURRENT_DATE), 'NONE', 'NONE', 'NONE', 'NONE', 'NONE'),
-    ('20000000-0000-0000-0000-000000000011', '10000000-0000-0000-0000-000000000011', 'SELECT 11', DATEADD('DAY', -5, CURRENT_DATE), 'EXACT', 'EXACT', 'EXACT', 'EXACT', 'EXACT'),
-    ('20000000-0000-0000-0000-000000000012', '10000000-0000-0000-0000-000000000012', 'SELECT 12', DATEADD('DAY', -4, CURRENT_DATE), 'EXACT', 'EXACT', 'EXACT', 'EXACT', 'EXACT'),
-    ('20000000-0000-0000-0000-000000000013', '10000000-0000-0000-0000-000000000013', 'SELECT 13', DATEADD('DAY', -3, CURRENT_DATE), 'EXACT', 'EXACT', 'EXACT', 'EXACT', 'EXACT'),
-    ('20000000-0000-0000-0000-000000000014', '10000000-0000-0000-0000-000000000014', 'SELECT 14', DATEADD('DAY', -2, CURRENT_DATE), 'NONE', 'NONE', 'NONE', 'NONE', 'NONE'),
-    ('20000000-0000-0000-0000-000000000015', '10000000-0000-0000-0000-000000000015', 'SELECT 15', DATEADD('DAY', -1, CURRENT_DATE), 'EXACT', 'EXACT', 'EXACT', 'EXACT', 'EXACT'),
-    ('20000000-0000-0000-0000-000000000016', '10000000-0000-0000-0000-000000000016', 'SELECT 16', CURRENT_DATE, 'EXACT', 'EXACT', 'EXACT', 'EXACT', 'EXACT'),
-    ('20000000-0000-0000-0000-000000000009', '10000000-0000-0000-0000-000000000009', 'SELECT 9', CURRENT_DATE, 'EXACT', 'EXACT', 'EXACT', 'EXACT', 'EXACT');
+    ('20000000-0000-0000-0000-000000000010', '10000000-0000-0000-0000-000000000010', 'SELECT 10', DATEADD('DAY', -6, CURRENT_DATE), 'NONE', 'NONE', 'NONE', 'NONE', 'NONE', FALSE),
+    ('20000000-0000-0000-0000-000000000011', '10000000-0000-0000-0000-000000000011', 'SELECT 11', DATEADD('DAY', -5, CURRENT_DATE), 'EXACT', 'EXACT', 'EXACT', 'EXACT', 'EXACT', TRUE),
+    ('20000000-0000-0000-0000-000000000012', '10000000-0000-0000-0000-000000000012', 'SELECT 12', DATEADD('DAY', -4, CURRENT_DATE), 'EXACT', 'EXACT', 'EXACT', 'EXACT', 'EXACT', TRUE),
+    ('20000000-0000-0000-0000-000000000013', '10000000-0000-0000-0000-000000000013', 'SELECT 13', DATEADD('DAY', -3, CURRENT_DATE), 'EXACT', 'EXACT', 'EXACT', 'EXACT', 'EXACT', TRUE),
+    ('20000000-0000-0000-0000-000000000014', '10000000-0000-0000-0000-000000000014', 'SELECT 14', DATEADD('DAY', -2, CURRENT_DATE), 'NONE', 'NONE', 'NONE', 'NONE', 'NONE', FALSE),
+    ('20000000-0000-0000-0000-000000000015', '10000000-0000-0000-0000-000000000015', 'SELECT 15', DATEADD('DAY', -1, CURRENT_DATE), 'EXACT', 'EXACT', 'EXACT', 'EXACT', 'EXACT', TRUE),
+    ('20000000-0000-0000-0000-000000000016', '10000000-0000-0000-0000-000000000016', 'SELECT 16', CURRENT_DATE, 'EXACT', 'EXACT', 'EXACT', 'EXACT', 'EXACT', TRUE),
+    ('20000000-0000-0000-0000-000000000009', '10000000-0000-0000-0000-000000000009', 'SELECT 9', CURRENT_DATE, 'EXACT', 'EXACT', 'EXACT', 'EXACT', 'EXACT', TRUE);

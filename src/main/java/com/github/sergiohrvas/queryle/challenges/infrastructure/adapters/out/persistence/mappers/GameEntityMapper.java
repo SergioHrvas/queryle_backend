@@ -12,6 +12,7 @@ import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Feed
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.GameStatus;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.MatchLevel;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Query;
+import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.QueryEvaluation;
 
 public class GameEntityMapper {
     public static GameEntity toEntity(Game game) {
@@ -56,12 +57,15 @@ public class GameEntityMapper {
     private static Attempt mapToAttempt(AttemptEntity attemptEntity) {
         return new Attempt(
             new Query(attemptEntity.getQuery()),
-            new Feedback(
-                MatchLevel.valueOf(attemptEntity.getColumnsNamesMatchLevel()),
-                MatchLevel.valueOf(attemptEntity.getColumnsCountMatchLevel()),
-                MatchLevel.valueOf(attemptEntity.getRowsCountMatchLevel()),
-                MatchLevel.valueOf(attemptEntity.getRowsDataMatchLevel()),
-                MatchLevel.valueOf(attemptEntity.getRowsOrderMatchLevel())
+            new QueryEvaluation(
+                new Feedback(
+                    MatchLevel.valueOf(attemptEntity.getColumnsNamesMatchLevel()),
+                    MatchLevel.valueOf(attemptEntity.getColumnsCountMatchLevel()),
+                    MatchLevel.valueOf(attemptEntity.getRowsCountMatchLevel()),
+                    MatchLevel.valueOf(attemptEntity.getRowsDataMatchLevel()),
+                    MatchLevel.valueOf(attemptEntity.getRowsOrderMatchLevel())
+                ), 
+                attemptEntity.isValidationPassed()
             ),
             attemptEntity.getSubmittedAt()
         );
@@ -72,11 +76,12 @@ public class GameEntityMapper {
             gameEntity,
             attempt.query().value(),
             attempt.submittedAt(),
-            attempt.feedback().columnsNamesMatchLevel().name(),
-            attempt.feedback().columnsCountMatchLevel().name(),
-            attempt.feedback().rowsCountMatchLevel().name(),
-            attempt.feedback().rowsDataMatchLevel().name(),
-            attempt.feedback().rowsOrderMatchLevel().name()
+            attempt.evaluation().feedback().columnsNamesMatchLevel().name(),
+            attempt.evaluation().feedback().columnsCountMatchLevel().name(),
+            attempt.evaluation().feedback().rowsCountMatchLevel().name(),
+            attempt.evaluation().feedback().rowsDataMatchLevel().name(),
+            attempt.evaluation().feedback().rowsOrderMatchLevel().name(),
+            attempt.evaluation().validationPassed()
         );
     }
 }

@@ -11,7 +11,7 @@ public class AttemptResponseMapper {
 
         return new AttemptResponseDTO(
             attempt.query().value(),
-            FeedbackResponseMapper.toDTO(attempt.feedback()),
+            QueryEvaluationResponseMapper.toDTO(attempt.evaluation()),
             attempt.submittedAt()
         );
     }

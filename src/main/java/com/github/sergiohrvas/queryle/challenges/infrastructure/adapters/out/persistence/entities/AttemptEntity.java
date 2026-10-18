@@ -46,7 +46,20 @@ public class AttemptEntity {
     @Column(name = "rows_order_match_level", nullable = false)
     private String rowsOrderMatchLevel;
 
-    public AttemptEntity(GameEntity game, String query, LocalDateTime submittedAt, String columnsNamesMatchLevel, String columnsCountMatchLevel, String rowsCountMatchLevel, String rowsDataMatchLevel, String rowsOrderMatchLevel) {
+    @Column(name = "validation_passed", nullable = false)
+    private boolean validationPassed;
+
+    public AttemptEntity(
+        GameEntity game,
+        String query,
+        LocalDateTime submittedAt,
+        String columnsNamesMatchLevel,
+        String columnsCountMatchLevel,
+        String rowsCountMatchLevel,
+        String rowsDataMatchLevel,
+        String rowsOrderMatchLevel,
+        boolean validationPassed
+    ) {
         this.game = game;
         this.query = query;
         this.submittedAt = submittedAt;
@@ -55,6 +68,7 @@ public class AttemptEntity {
         this.rowsCountMatchLevel = rowsCountMatchLevel;
         this.rowsDataMatchLevel = rowsDataMatchLevel;
         this.rowsOrderMatchLevel = rowsOrderMatchLevel;
+        this.validationPassed = validationPassed;
     }
 
     protected AttemptEntity() {}
@@ -93,5 +107,9 @@ public class AttemptEntity {
 
     public String getRowsOrderMatchLevel() {
         return rowsOrderMatchLevel;
+    }
+
+    public boolean isValidationPassed() {
+        return validationPassed;
     }
 }

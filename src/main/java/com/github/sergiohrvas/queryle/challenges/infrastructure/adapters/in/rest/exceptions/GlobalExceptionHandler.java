@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.github.sergiohrvas.queryle.challenges.application.exceptions.DailyChallengeNotFoundException;
-import com.github.sergiohrvas.queryle.challenges.domain.exceptions.DomainExcepcion;
+import com.github.sergiohrvas.queryle.challenges.domain.exceptions.DomainException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(DomainExcepcion.class)
-    public ProblemDetail handleDomainExcepcion(DomainExcepcion ex) {
+    @ExceptionHandler(DomainException.class)
+    public ProblemDetail handleDomainExcepcion(DomainException ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_CONTENT);
         problemDetail.setDetail(ex.getMessage());
         return problemDetail;

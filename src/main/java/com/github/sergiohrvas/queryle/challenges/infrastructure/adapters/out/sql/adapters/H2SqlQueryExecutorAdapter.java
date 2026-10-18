@@ -4,9 +4,9 @@ import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.sql
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Query;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.QueryExecutionStatus;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.QueryResult;
-import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.SeedScript;
+import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Schema;
+import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Dataset;
 import com.github.sergiohrvas.queryle.challenges.domain.ports.SqlQueryExecutorPort;
-import com.github.sergiohrvas.queryle.challenges.domain.models.DataContext;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -26,21 +26,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class H2SqlQueryExecutorAdapter implements SqlQueryExecutorPort {
     @Override
-    public QueryResult execute(Query query, DataContext dataContext) {
+    public QueryResult execute(Query query, Schema schema, Dataset dataset) {
         String memDbUrl = "jdbc:h2:mem:eval_" + UUID.randomUUID().toString().replace("-", "") + ";DB_CLOSE_DELAY=0";
         
         try (Connection connection = DriverManager.getConnection(memDbUrl);
              Statement stmt = connection.createStatement()) {
 
-            SeedScript seedScript = dataContext.getSeedScript();
-
-            executeScript(stmt, seedScript.schema());
-            executeScript(stmt, seedScript.dataFixture());
+            executeScript(stmt, schema.schema());
+            executeScript(stmt, dataset.dataFixture());
 
             return executeQuery(stmt, query.value());
         } catch (SQLException e) {
             throw new SqlQueryExecutionException(
-                "Could not execute query for data context " + dataContext.getId(), e
+                "Could not prepare SQL execution environment"
             );
         }
     }

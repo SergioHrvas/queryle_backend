@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public record AttemptResponseDTO(
     String query,
-    FeedbackResponseDTO feedback,
+    QueryEvaluationResponseDTO feedback,
     LocalDateTime submittedDate
 ) {
 }

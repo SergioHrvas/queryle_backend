@@ -9,8 +9,8 @@ import com.github.sergiohrvas.queryle.challenges.domain.models.DailyChallenge;
 import com.github.sergiohrvas.queryle.challenges.domain.models.DataContext;
 import com.github.sergiohrvas.queryle.challenges.domain.models.Game;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Attempt;
-import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Feedback;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Query;
+import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.QueryEvaluation;
 import com.github.sergiohrvas.queryle.challenges.domain.ports.DailyChallengePort;
 import com.github.sergiohrvas.queryle.challenges.domain.ports.DataContextPort;
 import com.github.sergiohrvas.queryle.challenges.domain.ports.GamePort;
@@ -55,9 +55,9 @@ public class SubmitAttemptCommandHandler {
                 Game game = gamePort.findByPlayerIdAndDailyChallengeId(playerId, dailyChallengeId)
                                 .orElseGet(() -> new Game(playerId, dailyChallengeId, LocalDateTime.now()));
 
-                Feedback feedback = queryEvaluator.evaluate(playerQuery, dailyChallenge.getQuery(), dataContext);
+                QueryEvaluation evaluation = queryEvaluator.evaluate(playerQuery, dailyChallenge.getQuery(), dataContext);
 
-                Attempt gameAttempt = new Attempt(playerQuery, feedback, LocalDateTime.now());
+                Attempt gameAttempt = new Attempt(playerQuery, evaluation, LocalDateTime.now());
                 game.addAttempt(gameAttempt);
 
                 gamePort.save(game);

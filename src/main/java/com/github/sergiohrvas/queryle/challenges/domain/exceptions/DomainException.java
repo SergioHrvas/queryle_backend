@@ -1,7 +1,7 @@
 package com.github.sergiohrvas.queryle.challenges.domain.exceptions;
 
-public class DomainExcepcion extends RuntimeException {
-    public DomainExcepcion(String message) {
+public class DomainException extends RuntimeException {
+    public DomainException(String message) {
         super(message);
     }
 }

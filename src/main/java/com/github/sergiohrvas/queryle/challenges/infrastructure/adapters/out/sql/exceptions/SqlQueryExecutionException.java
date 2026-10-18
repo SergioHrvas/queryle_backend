@@ -2,7 +2,7 @@ package com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.sq
 
 public class SqlQueryExecutionException extends RuntimeException {
 
-    public SqlQueryExecutionException(String message, Throwable cause) {
-        super(message, cause);
+    public SqlQueryExecutionException(String message) {
+        super(message);
     }
 }
