@@ -1,4 +1,4 @@
-package com.github.sergiohrvas.queryle.challenges.application.queries.ports;
+package com.github.sergiohrvas.queryle.challenges.application.ports;
 
 import java.util.UUID;
 

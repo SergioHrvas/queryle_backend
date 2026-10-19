@@ -5,7 +5,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.github.sergiohrvas.queryle.challenges.application.dtos.PlayerStatsReadModel;
-import com.github.sergiohrvas.queryle.challenges.application.queries.ports.PlayerStatsQueryPort;
+import com.github.sergiohrvas.queryle.challenges.application.ports.PlayerStatsQueryPort;
 
 @Service
 public class GetPlayerStatsQueryHandler {

@@ -11,9 +11,9 @@ import com.github.sergiohrvas.queryle.challenges.domain.models.Game;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Attempt;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Query;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.QueryEvaluation;
-import com.github.sergiohrvas.queryle.challenges.domain.ports.DailyChallengePort;
-import com.github.sergiohrvas.queryle.challenges.domain.ports.DataContextPort;
-import com.github.sergiohrvas.queryle.challenges.domain.ports.GamePort;
+import com.github.sergiohrvas.queryle.challenges.domain.repositories.DailyChallengeRepository;
+import com.github.sergiohrvas.queryle.challenges.domain.repositories.DataContextRepository;
+import com.github.sergiohrvas.queryle.challenges.domain.repositories.GameRepository;
 import com.github.sergiohrvas.queryle.challenges.domain.services.QueryEvaluatorService;
 
 import jakarta.transaction.Transactional;
@@ -21,20 +21,20 @@ import jakarta.transaction.Transactional;
 @Service
 public class SubmitAttemptCommandHandler {
 
-        private final DailyChallengePort dailyChallengePort;
-        private final DataContextPort dataContextPort;
-        private final GamePort gamePort;
+        private final DailyChallengeRepository dailyChallengeRepository;
+        private final DataContextRepository dataContextRepository;
+        private final GameRepository gameRepository;
         private final QueryEvaluatorService queryEvaluator;
 
         public SubmitAttemptCommandHandler(
-                DailyChallengePort dailyChallengePort,
-                DataContextPort dataContextPort,
-                GamePort gamePort,
+                DailyChallengeRepository dailyChallengeRepository,
+                DataContextRepository dataContextRepository,
+                GameRepository gameRepository,
                 QueryEvaluatorService queryEvaluator
         ) {
-                this.dailyChallengePort = dailyChallengePort;
-                this.dataContextPort = dataContextPort;
-                this.gamePort = gamePort;
+                this.dailyChallengeRepository = dailyChallengeRepository;
+                this.dataContextRepository = dataContextRepository;
+                this.gameRepository = gameRepository;
                 this.queryEvaluator = queryEvaluator;
         }
 
@@ -46,13 +46,13 @@ public class SubmitAttemptCommandHandler {
 
                 Query playerQuery = new Query(rawQuery);
 
-                DailyChallenge dailyChallenge = dailyChallengePort.findById(dailyChallengeId)
+                DailyChallenge dailyChallenge = dailyChallengeRepository.findById(dailyChallengeId)
                                 .orElseThrow(() -> new IllegalArgumentException("Daily challenge not found"));
 
-                DataContext dataContext = dataContextPort.findById(dailyChallenge.getDataContextId())
+                DataContext dataContext = dataContextRepository.findById(dailyChallenge.getDataContextId())
                                 .orElseThrow(() -> new IllegalArgumentException("Data context not found"));
 
-                Game game = gamePort.findByPlayerIdAndDailyChallengeId(playerId, dailyChallengeId)
+                Game game = gameRepository.findByPlayerIdAndDailyChallengeId(playerId, dailyChallengeId)
                                 .orElseGet(() -> new Game(playerId, dailyChallengeId, LocalDateTime.now()));
 
                 QueryEvaluation evaluation = queryEvaluator.evaluate(playerQuery, dailyChallenge.getQuery(), dataContext);
@@ -60,6 +60,6 @@ public class SubmitAttemptCommandHandler {
                 Attempt gameAttempt = new Attempt(playerQuery, evaluation, LocalDateTime.now());
                 game.addAttempt(gameAttempt);
 
-                gamePort.save(game);
+                gameRepository.save(game);
         }
 }

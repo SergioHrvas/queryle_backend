@@ -5,7 +5,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Component;
 
 import com.github.sergiohrvas.queryle.challenges.application.dtos.PlayerStatsReadModel;
-import com.github.sergiohrvas.queryle.challenges.application.queries.ports.PlayerStatsQueryPort;
+import com.github.sergiohrvas.queryle.challenges.application.ports.PlayerStatsQueryPort;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.persistence.repositories.H2JdbcPlayerStatsQueryRepository;
 
 @Component
