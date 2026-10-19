@@ -2,8 +2,6 @@ package com.github.sergiohrvas.queryle.challenges.domain.services;
 
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 import com.github.sergiohrvas.queryle.challenges.domain.exceptions.InvalidDataContextException;
 import com.github.sergiohrvas.queryle.challenges.domain.models.DataContext;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Feedback;

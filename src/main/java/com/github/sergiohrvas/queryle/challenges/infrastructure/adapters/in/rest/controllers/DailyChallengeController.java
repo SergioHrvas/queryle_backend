@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.http.ResponseEntity;
 
+import com.github.sergiohrvas.queryle.challenges.application.commands.submitattempt.SubmitAttemptCommand;
+import com.github.sergiohrvas.queryle.challenges.application.commands.submitattempt.SubmitAttemptCommandHandler;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.request.SubmitAttemptRequestDTO;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.response.GameResponseDTO;
-import com.github.sergiohrvas.queryle.challenges.application.commands.SubmitAttemptCommand;
-import com.github.sergiohrvas.queryle.challenges.application.commands.SubmitAttemptCommandHandler;
 
 @RestController
 @RequestMapping("/api/v1/challenges")
