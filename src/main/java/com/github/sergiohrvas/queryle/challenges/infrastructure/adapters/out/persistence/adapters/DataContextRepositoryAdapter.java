@@ -6,16 +6,16 @@ import java.util.UUID;
 import org.springframework.stereotype.Component;
 
 import com.github.sergiohrvas.queryle.challenges.domain.models.DataContext;
-import com.github.sergiohrvas.queryle.challenges.domain.ports.DataContextPort;
+import com.github.sergiohrvas.queryle.challenges.domain.repositories.DataContextRepository;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.persistence.mappers.DataContextEntityMapper;
-import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.persistence.repositories.DataContextJPARepository;
+import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.persistence.repositories.DataContextJPARepositoryAdapter;
 
 @Component
-public class DataContextAdapter implements DataContextPort {
+public class DataContextRepositoryAdapter implements DataContextRepository {
     
-    private final DataContextJPARepository dataContextJPARepository;
+    private final DataContextJPARepositoryAdapter dataContextJPARepository;
 
-    public DataContextAdapter(DataContextJPARepository dataContextJPARepository) {
+    public DataContextRepositoryAdapter(DataContextJPARepositoryAdapter dataContextJPARepository) {
         this.dataContextJPARepository = dataContextJPARepository;
     }
 

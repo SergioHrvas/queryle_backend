@@ -11,6 +11,6 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 @Repository
-public interface DailyChallengeJPARepository extends JpaRepository<DailyChallengeEntity, UUID> {
+public interface DailyChallengeJPARepositoryAdapter extends JpaRepository<DailyChallengeEntity, UUID> {
     Optional<DailyChallengeEntity> findByPublicationDateAndDifficulty(LocalDate publicationDate, String difficulty);
 }

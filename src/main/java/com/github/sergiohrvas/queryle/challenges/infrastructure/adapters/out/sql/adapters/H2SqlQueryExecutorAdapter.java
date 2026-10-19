@@ -2,12 +2,12 @@ package com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.sq
 
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.sql.exceptions.SqlQueryExecutionException;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Query;
-import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.QueryComparisonResult;
+import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.QueryExecutionPair;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.QueryExecutionStatus;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.QueryResult;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Schema;
-import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Dataset;
 import com.github.sergiohrvas.queryle.challenges.domain.ports.SqlQueryExecutorPort;
+import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Dataset;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class H2SqlQueryExecutorAdapter implements SqlQueryExecutorPort {
     @Override
-    public QueryComparisonResult compare(
+    public QueryExecutionPair execute(
         Query submittedQuery,
         Query expectedQuery,
         Schema schema,
@@ -44,7 +44,7 @@ public class H2SqlQueryExecutorAdapter implements SqlQueryExecutorPort {
             QueryResult expected = executeQuery(stmt, expectedQuery.value());
             QueryResult actual = executeQuery(stmt, submittedQuery.value());
 
-            return new QueryComparisonResult(expected, actual);
+            return new QueryExecutionPair(expected, actual);
         } catch (SQLException e) {
             throw new SqlQueryExecutionException(
                 "Could not prepare SQL execution environment",

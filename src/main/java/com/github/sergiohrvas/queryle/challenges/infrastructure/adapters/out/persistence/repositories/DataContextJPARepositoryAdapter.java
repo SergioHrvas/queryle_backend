@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.persistence.entities.DataContextEntity;
 
 @Repository
-public interface DataContextJPARepository extends JpaRepository<DataContextEntity, UUID> {
+public interface DataContextJPARepositoryAdapter extends JpaRepository<DataContextEntity, UUID> {
 }

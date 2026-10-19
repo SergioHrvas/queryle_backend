@@ -1,6 +1,6 @@
 package com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects;
 
-public record QueryComparisonResult(
+public record QueryExecutionPair(
     QueryResult expected,
     QueryResult actual
 ) {

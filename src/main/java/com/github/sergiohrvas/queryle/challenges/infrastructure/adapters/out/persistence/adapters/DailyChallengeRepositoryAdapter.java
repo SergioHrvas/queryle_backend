@@ -8,15 +8,15 @@ import org.springframework.stereotype.Component;
 
 import com.github.sergiohrvas.queryle.challenges.domain.models.DailyChallenge;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Difficulty;
-import com.github.sergiohrvas.queryle.challenges.domain.ports.DailyChallengePort;
+import com.github.sergiohrvas.queryle.challenges.domain.repositories.DailyChallengeRepository;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.persistence.mappers.DailyChallengeEntityMapper;
-import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.persistence.repositories.DailyChallengeJPARepository;
+import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.persistence.repositories.DailyChallengeJPARepositoryAdapter;
 
 @Component
-public class DailyChallengeAdapter implements DailyChallengePort {
-    private final DailyChallengeJPARepository dailyChallengeJPARepository;
+public class DailyChallengeRepositoryAdapter implements DailyChallengeRepository {
+    private final DailyChallengeJPARepositoryAdapter dailyChallengeJPARepository;
 
-    public DailyChallengeAdapter(DailyChallengeJPARepository dailyChallengeJPARepository) {
+    public DailyChallengeRepositoryAdapter(DailyChallengeJPARepositoryAdapter dailyChallengeJPARepository) {
         this.dailyChallengeJPARepository = dailyChallengeJPARepository;
     }
 

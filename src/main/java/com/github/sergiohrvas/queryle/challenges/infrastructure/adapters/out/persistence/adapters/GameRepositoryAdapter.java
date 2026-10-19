@@ -1,8 +1,8 @@
 package com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.persistence.adapters;
 
-import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.persistence.repositories.GameJPARepository;
+import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.persistence.repositories.GameJPARepositoryAdapter;
 import com.github.sergiohrvas.queryle.challenges.domain.models.Game;
-import com.github.sergiohrvas.queryle.challenges.domain.ports.GamePort;
+import com.github.sergiohrvas.queryle.challenges.domain.repositories.GameRepository;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.persistence.mappers.GameEntityMapper;
 
 import java.util.Optional;
@@ -11,10 +11,10 @@ import java.util.UUID;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GameAdapter implements GamePort {
-    private final GameJPARepository gameJPARepository;
+public class GameRepositoryAdapter implements GameRepository {
+    private final GameJPARepositoryAdapter gameJPARepository;
 
-    public GameAdapter(GameJPARepository gameJPARepository) {
+    public GameRepositoryAdapter(GameJPARepositoryAdapter gameJPARepository) {
         this.gameJPARepository = gameJPARepository;
     }
 
