@@ -2,7 +2,7 @@ package com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.res
 
 import java.util.Objects;
 
-import com.github.sergiohrvas.queryle.challenges.application.dtos.PlayerStatsReadModel;
+import com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats.PlayerStatsReadModel;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.response.PlayerStatsResponseDTO;
 
 public class PlayerStatsResponseMapper {
