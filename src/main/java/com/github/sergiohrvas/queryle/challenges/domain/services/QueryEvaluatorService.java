@@ -11,6 +11,7 @@ import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Sche
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Dataset;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.MatchLevel;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Query;
+import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.QueryComparisonResult;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.QueryEvaluation;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.QueryExecutionStatus;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.QueryResult;
@@ -34,8 +35,14 @@ public class QueryEvaluatorService {
         Schema schema = dataContext.getSchema();
         Dataset publicDataset = dataContext.getPublicDataset();
 
-        QueryResult expected = executor.execute(expectedQuery, schema, publicDataset);
-        QueryResult actual = executor.execute(submittedQuery, schema, publicDataset);
+        QueryComparisonResult comparison = executor.compare(
+            submittedQuery,
+            expectedQuery,
+            schema,
+            publicDataset
+        );
+        QueryResult expected = comparison.expected();
+        QueryResult actual = comparison.actual();
 
         if(expected.status() == QueryExecutionStatus.INVALID_QUERY){
             throw new InvalidDataContextException("The expected query is invalid for the given data context.");
@@ -45,8 +52,6 @@ public class QueryEvaluatorService {
         }
 
         Feedback feedback = matcher.match(actual, expected);
-
-
         if (!feedback.isAllExact()) {
             return new QueryEvaluation(feedback, false);
         }
@@ -58,7 +63,7 @@ public class QueryEvaluatorService {
         );
 
         return new QueryEvaluation(
-            validationPassed ? feedback : noMatch(),
+            feedback,
             validationPassed
         );
     }
@@ -82,8 +87,14 @@ public class QueryEvaluatorService {
         List<Dataset> privateDatasets = dataContext.getPrivateDatasets();
 
         for (Dataset privateDataset : privateDatasets) {
-            QueryResult expected = executor.execute(expectedQuery, schema, privateDataset);
-            QueryResult actual = executor.execute(submittedQuery, schema, privateDataset);
+            QueryComparisonResult comparison = executor.compare(
+                submittedQuery,
+                expectedQuery,
+                schema,
+                privateDataset
+            );
+            QueryResult expected = comparison.expected();
+            QueryResult actual = comparison.actual();
 
             if(expected.status() == QueryExecutionStatus.INVALID_QUERY){
                 throw new InvalidDataContextException("The expected query is invalid for the given data context.");
