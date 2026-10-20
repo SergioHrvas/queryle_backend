@@ -13,7 +13,7 @@ public class GetPlayerStatsQueryHandler {
         this.playerStatsQueryPort = playerStatsQueryPort;
     }
 
-    public PlayerStatsReadModel handle(GetPlayerStatsQuery query) {
-        return playerStatsQueryPort.findByPlayerId(query.getPlayerId());
+    public PlayerStatsView handle(GetPlayerStatsQuery query) {
+        return playerStatsQueryPort.findByPlayerId(query.playerId());
     }
 }

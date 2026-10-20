@@ -2,7 +2,7 @@ package com.github.sergiohrvas.queryle.challenges.application.queries.getplayers
 
 import java.util.UUID;
 
-public record PlayerStatsReadModel (
+public record PlayerStatsView (
     UUID playerId,
     int playedGames,
     int wonGames,
