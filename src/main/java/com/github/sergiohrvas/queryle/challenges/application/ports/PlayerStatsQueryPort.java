@@ -2,8 +2,8 @@ package com.github.sergiohrvas.queryle.challenges.application.ports;
 
 import java.util.UUID;
 
-import com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats.PlayerStatsReadModel;
+import com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats.PlayerStatsView;
 
 public interface PlayerStatsQueryPort {
-    PlayerStatsReadModel findByPlayerId(UUID playerId);
+    PlayerStatsView findByPlayerId(UUID playerId);
 }

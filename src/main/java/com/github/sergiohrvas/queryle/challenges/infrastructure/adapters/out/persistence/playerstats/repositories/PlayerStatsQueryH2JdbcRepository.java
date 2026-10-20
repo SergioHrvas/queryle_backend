@@ -2,22 +2,20 @@ package com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.pe
 
 import java.util.UUID;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
-import com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats.PlayerStatsReadModel;
+import com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats.PlayerStatsView;
 
-@Primary
 @Repository
-public class PlayerStatsH2JdbcRepository implements PlayerStatsRepository {
+public class PlayerStatsQueryH2JdbcRepository implements PlayerStatsQueryRepository {
     private final JdbcClient jdbcClient;
 
-    public PlayerStatsH2JdbcRepository(JdbcClient jdbcClient) {
+    public PlayerStatsQueryH2JdbcRepository(JdbcClient jdbcClient) {
         this.jdbcClient = jdbcClient;
     }
 
-    public PlayerStatsReadModel getStats(UUID playerId) {
+    public PlayerStatsView getStats(UUID playerId) {
         return jdbcClient.sql(
                 """
                         WITH completed_games AS (
@@ -164,7 +162,7 @@ public class PlayerStatsH2JdbcRepository implements PlayerStatsRepository {
                         CROSS JOIN streak_stats
                         """)
                 .param("playerId", playerId)
-                .query((row, rowNum) -> new PlayerStatsReadModel(
+                .query((row, rowNum) -> new PlayerStatsView(
                         playerId,
                         row.getInt("total_games"),
                         row.getInt("wins"),
