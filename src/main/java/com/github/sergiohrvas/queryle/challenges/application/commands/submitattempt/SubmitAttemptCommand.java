@@ -1,8 +1,10 @@
 package com.github.sergiohrvas.queryle.challenges.application.commands.submitattempt;
 
+import java.util.UUID;
+
 public record SubmitAttemptCommand(
-    String attempt,
-    String playerId,
-    String dailyChallengeId
+    String rawQuery,
+    UUID playerId,
+    UUID dailyChallengeId
 ){
 }

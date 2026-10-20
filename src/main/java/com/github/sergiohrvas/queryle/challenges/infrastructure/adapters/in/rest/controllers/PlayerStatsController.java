@@ -13,7 +13,7 @@ import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.mappers.PlayerStatsResponseMapper;
 import com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats.GetPlayerStatsQuery;
 import com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats.GetPlayerStatsQueryHandler;
-import com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats.PlayerStatsReadModel;
+import com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats.PlayerStatsView;
 
 @RestController
 @RequestMapping("/api/v1/player-stats")
@@ -27,7 +27,7 @@ public class PlayerStatsController {
     @GetMapping("/{playerId}")
     public ResponseEntity<PlayerStatsResponseDTO> getPlayerStats(@PathVariable UUID playerId) {
         GetPlayerStatsQuery query = new GetPlayerStatsQuery(playerId);
-        PlayerStatsReadModel playerStats = getPlayerStatsQueryHandler.handle(query);
+        PlayerStatsView playerStats = getPlayerStatsQueryHandler.handle(query);
         return ResponseEntity.ok(PlayerStatsResponseMapper.toDTO(playerStats));
     }
 }
