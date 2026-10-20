@@ -1,18 +1,17 @@
 package com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.mappers;
 
-import java.util.Objects;
-
-import com.github.sergiohrvas.queryle.challenges.domain.models.DailyChallenge;
+import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenges.DailyChallengeView;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.response.DailyChallengeResponseDTO;
 
-public class DailyChallengeResponseMapper {
-    public static DailyChallengeResponseDTO toDTO(DailyChallenge dailyChallenge) {
-        if (Objects.isNull(dailyChallenge)) return null;
+public final class DailyChallengeResponseMapper {
+    private DailyChallengeResponseMapper() {}
 
+    public static DailyChallengeResponseDTO toDTO(DailyChallengeView dailyChallenge) {
         return new DailyChallengeResponseDTO(
-            dailyChallenge.getId(),
-            dailyChallenge.getFormulation(), 
-            dailyChallenge.getDataContextId()
+            dailyChallenge.id(),
+            dailyChallenge.formulation(),
+            dailyChallenge.publicationDate(),
+            dailyChallenge.status()
         );
     }
 }
