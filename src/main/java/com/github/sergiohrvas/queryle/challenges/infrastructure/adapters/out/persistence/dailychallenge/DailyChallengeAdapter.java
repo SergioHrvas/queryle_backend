@@ -13,10 +13,10 @@ import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.per
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.persistence.dailychallenge.repositories.DailyChallengeJPARepository;
 
 @Component
-public class DailyChallengeRepositoryAdapter implements DailyChallengeRepository {
+public class DailyChallengeAdapter implements DailyChallengeRepository {
     private final DailyChallengeJPARepository dailyChallengeJPARepository;
 
-    public DailyChallengeRepositoryAdapter(DailyChallengeJPARepository dailyChallengeJPARepository) {
+    public DailyChallengeAdapter(DailyChallengeJPARepository dailyChallengeJPARepository) {
         this.dailyChallengeJPARepository = dailyChallengeJPARepository;
     }
 
