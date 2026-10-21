@@ -13,33 +13,38 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 
 import com.github.sergiohrvas.queryle.challenges.application.commands.submitattempt.SubmitAttemptCommand;
 import com.github.sergiohrvas.queryle.challenges.application.commands.submitattempt.SubmitAttemptCommandHandler;
+import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenge.GetDailyChallengeQuery;
+import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenge.GetDailyChallengeQueryHandler;
 import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenges.GetDailyChallengesQuery;
 import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenges.GetDailyChallengesQueryHandler;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.request.SubmitAttemptRequestDTO;
-import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.response.DailyChallengeResponseDTO;
+import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.response.DailyChallengeSummaryResponseDTO;
+import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.response.DailyChallengeDetailResponseDTO;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.mappers.DailyChallengeResponseMapper;
 
 @RestController
 @RequestMapping("/api/v1/challenges")
 public class DailyChallengeController {
     private final SubmitAttemptCommandHandler submitAttemptCommandHandler;
+    private final GetDailyChallengeQueryHandler getDailyChallengeQueryHandler;
     private final GetDailyChallengesQueryHandler getDailyChallengesQueryHandler;
 
     public DailyChallengeController(
         SubmitAttemptCommandHandler submitAttemptCommandHandler,
-        GetDailyChallengesQueryHandler getDailyChallengesQueryHandler
+        GetDailyChallengesQueryHandler getDailyChallengesQueryHandler,
+        GetDailyChallengeQueryHandler getDailyChallengeQueryHandler
     ) {
         this.submitAttemptCommandHandler = submitAttemptCommandHandler;
         this.getDailyChallengesQueryHandler = getDailyChallengesQueryHandler;
+        this.getDailyChallengeQueryHandler = getDailyChallengeQueryHandler;
     }
 
     @GetMapping
-    public ResponseEntity<List<DailyChallengeResponseDTO>> getDailyChallenges(
+    public ResponseEntity<List<DailyChallengeSummaryResponseDTO>> getDailyChallenges(
         @RequestHeader("X-Player-Id") UUID playerId,
         @RequestParam String difficulty,
         @RequestParam LocalDate dateFrom,
@@ -51,10 +56,25 @@ public class DailyChallengeController {
             dateFrom,
             dateTo
         );
-        List<DailyChallengeResponseDTO> response = 
+        List<DailyChallengeSummaryResponseDTO> response = 
             getDailyChallengesQueryHandler.handle(query).stream()
                 .map(DailyChallengeResponseMapper::toDTO).toList();
 
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping ("/{dailyChallengeId}")
+    public ResponseEntity<DailyChallengeDetailResponseDTO> getDailyChallenge(
+        @PathVariable UUID dailyChallengeId,
+        @RequestHeader("X-Player-Id") UUID playerId
+    ) {
+        GetDailyChallengeQuery query = new GetDailyChallengeQuery(
+            playerId,
+            dailyChallengeId
+        );
+        DailyChallengeDetailResponseDTO response = DailyChallengeResponseMapper.toDTO(
+            getDailyChallengeQueryHandler.handle(query)
+        );
         return ResponseEntity.ok(response);
     }
 

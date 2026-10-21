@@ -15,7 +15,7 @@ public class GetDailyChallengesQueryHandler {
         this.dailyChallengesQueryPort = dailyChallengesQueryPort;
     }
 
-    public List<DailyChallengeView> handle(GetDailyChallengesQuery query) {
+    public List<DailyChallengeSummaryView> handle(GetDailyChallengesQuery query) {
         return dailyChallengesQueryPort.getDailyChallenges(
             query.playerId(),
             query.dateFrom(),
