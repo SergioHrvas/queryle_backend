@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.sergiohrvas.queryle.challenges.application.commands.createdatacontext.CreateDataContextCommand;
 import com.github.sergiohrvas.queryle.challenges.application.commands.createdatacontext.CreateDataContextCommandHandler;
-import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.request.CreateDataContextRequestDTO;
+import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.request.DataContextRequestDTO;
 
 @RestController
 @RequestMapping("/api/v1/datacontexts")
@@ -22,7 +22,7 @@ public class DataContextController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createDataContext(@RequestBody CreateDataContextRequestDTO request) {
+    public ResponseEntity<Void> createDataContext(@RequestBody DataContextRequestDTO request) {
         createDataContextCommandHandler.handle(
             new CreateDataContextCommand(
                 request.name(),
@@ -33,6 +33,5 @@ public class DataContextController {
             )
         );
         return ResponseEntity.status(HttpStatus.CREATED).build();
-
     }
 }

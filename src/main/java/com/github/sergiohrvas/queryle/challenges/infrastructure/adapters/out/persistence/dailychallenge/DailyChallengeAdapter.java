@@ -21,6 +21,11 @@ public class DailyChallengeAdapter implements DailyChallengeRepository {
     }
 
     @Override
+    public UUID generateId() {
+        return UUID.randomUUID();
+    }
+
+    @Override
     public DailyChallenge save(DailyChallenge dailyChallenge) {
         return DailyChallengeEntityMapper.toDomain(dailyChallengeJPARepository.save(DailyChallengeEntityMapper.toEntity(dailyChallenge)));
     }

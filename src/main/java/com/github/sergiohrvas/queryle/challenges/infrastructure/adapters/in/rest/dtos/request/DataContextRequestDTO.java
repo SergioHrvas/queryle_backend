@@ -2,7 +2,7 @@ package com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.res
 
 import java.util.List;
 
-public record CreateDataContextRequestDTO(
+public record DataContextRequestDTO(
     String name,
     String description,
     String schema,
