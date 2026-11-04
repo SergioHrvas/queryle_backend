@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Component;
 
 import com.github.sergiohrvas.queryle.challenges.application.ports.DailyChallengesQueryPort;
-import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenge.DailyChallengeDetailView;
+import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenge.views.DailyChallengeDetailView;
 import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenges.DailyChallengeSummaryView;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.persistence.dailychallenge.repositories.DailyChallengeQueryRepository;
 

@@ -3,6 +3,7 @@ package com.github.sergiohrvas.queryle.challenges.application.queries.getdailych
 import org.springframework.stereotype.Service;
 
 import com.github.sergiohrvas.queryle.challenges.application.ports.DailyChallengesQueryPort;
+import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenge.views.DailyChallengeDetailView;
 
 @Service
 public class GetDailyChallengeQueryHandler {

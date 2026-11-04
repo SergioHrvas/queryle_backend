@@ -84,12 +84,13 @@ public class DailyChallengeController {
         @RequestHeader("X-Player-Id") UUID playerId, 
         @RequestBody SubmitAttemptRequestDTO request
     ) {
-        SubmitAttemptCommand command = new SubmitAttemptCommand(
-            request.query(), 
-            playerId, 
-            dailyChallengeId
+        submitAttemptCommandHandler.handle(
+            new SubmitAttemptCommand(
+                request.query(), 
+                playerId, 
+                dailyChallengeId
+            )
         );
-        submitAttemptCommandHandler.handle(command);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

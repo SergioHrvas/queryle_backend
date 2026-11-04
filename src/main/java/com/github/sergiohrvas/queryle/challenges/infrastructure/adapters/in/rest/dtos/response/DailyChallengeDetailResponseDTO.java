@@ -9,9 +9,6 @@ public record DailyChallengeDetailResponseDTO(
     String difficulty,
     LocalDate publicationDate,
     DailyChallengeGameResponseDTO game,
-    String name,
-    String description,
-    String schema,
-    String publicDataset
+    DataContextResponseDTO dataContext
 ) {
 }

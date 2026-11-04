@@ -1,4 +1,4 @@
-package com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenge;
+package com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenge.views;
 
 import java.util.List;
 

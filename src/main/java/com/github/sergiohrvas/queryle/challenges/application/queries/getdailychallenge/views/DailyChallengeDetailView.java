@@ -1,4 +1,4 @@
-package com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenge;
+package com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenge.views;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -9,10 +9,7 @@ public record DailyChallengeDetailView (
     String difficulty,
     LocalDate publicationDate,
     DailyChallengeGameView game,
-    String name,
-    String description,
-    String schema,
-    String publicDataset
+    DailyChallengeDataContextView datacontext
 ) {
 
 }

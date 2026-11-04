@@ -20,6 +20,11 @@ public class DataContextRepositoryAdapter implements DataContextRepository {
     }
 
     @Override
+    public UUID generateId() {
+        return UUID.randomUUID();
+    }
+    
+    @Override
     public DataContext save(DataContext dataContext) {
         return DataContextEntityMapper.toDomain(dataContextJPARepository.save(DataContextEntityMapper.toEntity(dataContext)));
     }
