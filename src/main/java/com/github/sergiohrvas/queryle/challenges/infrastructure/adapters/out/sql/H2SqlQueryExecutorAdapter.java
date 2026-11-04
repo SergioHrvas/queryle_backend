@@ -26,6 +26,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class H2SqlQueryExecutorAdapter implements SqlQueryExecutorPort {
+    
+    private final H2SqlScriptExecutor scriptExecutor;
+
+    public H2SqlQueryExecutorAdapter(H2SqlScriptExecutor scriptExecutor) {
+        this.scriptExecutor = scriptExecutor;
+    }
+    
     @Override
     public QueryExecutionPair execute(
         Query submittedQuery,
@@ -36,10 +43,10 @@ public class H2SqlQueryExecutorAdapter implements SqlQueryExecutorPort {
         String memDbUrl = "jdbc:h2:mem:eval_" + UUID.randomUUID().toString().replace("-", "") + ";DB_CLOSE_DELAY=0";
         
         try (Connection connection = DriverManager.getConnection(memDbUrl);
-             Statement stmt = connection.createStatement()) {
+            Statement stmt = connection.createStatement()) {
 
-            executeScript(stmt, schema.schema());
-            executeScript(stmt, dataset.dataFixture());
+            scriptExecutor.execute(stmt, schema.schema());
+            scriptExecutor.execute(stmt, dataset.dataFixture());
 
             QueryResult expected = executeQuery(stmt, expectedQuery.value());
             QueryResult actual = executeQuery(stmt, submittedQuery.value());
@@ -50,20 +57,6 @@ public class H2SqlQueryExecutorAdapter implements SqlQueryExecutorPort {
                 "Could not prepare SQL execution environment",
                 e
             );
-        }
-    }
-
-    /**
-     * Executes a SQL script using the provided Statement object.
-     */
-    private void executeScript(Statement stmt, String sql) throws SQLException {
-        // Split the script into individual statements based on semicolons
-        String[] statements = sql.split(";");
-        for (String statement : statements) {
-            String trimmedStatement = statement.trim();
-            if (!trimmedStatement.isEmpty()) {
-                stmt.execute(trimmedStatement);
-            }
         }
     }
 

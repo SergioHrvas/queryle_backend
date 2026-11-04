@@ -8,6 +8,7 @@ import com.github.sergiohrvas.queryle.challenges.domain.models.DailyChallenge;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Difficulty;
 
 public interface DailyChallengeRepository {
+    UUID generateId();
     DailyChallenge save(DailyChallenge dailyChallenge);
     Optional<DailyChallenge> findById(UUID id);
     Optional<DailyChallenge> findByPublicationDateAndDifficulty(LocalDate publicationDate, Difficulty difficulty);

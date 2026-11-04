@@ -6,6 +6,7 @@ import java.util.UUID;
 import com.github.sergiohrvas.queryle.challenges.domain.models.DataContext;
 
 public interface DataContextRepository {
+    UUID generateId();
     DataContext save(DataContext dataContext);
     Optional<DataContext> findById(UUID id);
 }

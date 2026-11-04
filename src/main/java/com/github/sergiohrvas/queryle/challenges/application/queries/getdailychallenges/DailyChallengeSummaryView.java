@@ -3,7 +3,7 @@ package com.github.sergiohrvas.queryle.challenges.application.queries.getdailych
 import java.time.LocalDate;
 import java.util.UUID;
 
-public record DailyChallengeView(
+public record DailyChallengeSummaryView(
     UUID id,
     String formulation,
     LocalDate publicationDate,

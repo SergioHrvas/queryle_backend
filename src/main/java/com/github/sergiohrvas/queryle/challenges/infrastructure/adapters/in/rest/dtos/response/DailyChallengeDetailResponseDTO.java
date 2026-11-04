@@ -3,10 +3,12 @@ package com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.res
 import java.time.LocalDate;
 import java.util.UUID;
 
-public record DailyChallengeResponseDTO(
+public record DailyChallengeDetailResponseDTO(
     UUID id,
     String formulation,
+    String difficulty,
     LocalDate publicationDate,
-    String status
+    DailyChallengeGameResponseDTO game,
+    DataContextResponseDTO dataContext
 ) {
 }
