@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.github.sergiohrvas.queryle.challenges.application.ports.DailyChallengesQueryPort;
+import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenges.views.DailyChallengeSummaryView;
 
 @Service 
 public class GetDailyChallengesQueryHandler {

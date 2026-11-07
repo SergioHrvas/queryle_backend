@@ -7,7 +7,7 @@ import com.github.sergiohrvas.queryle.challenges.application.queries.getdailycha
 import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenge.views.DailyChallengeGameView;
 import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenge.views.DatasetView;
 import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenge.views.SchemaView;
-import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenges.DailyChallengeSummaryView;
+import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenges.views.DailyChallengeSummaryView;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.response.DailyChallengeAttemptResponseDTO;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.response.ColumnSchemaResponseDTO;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.response.DataContextResponseDTO;
@@ -25,6 +25,7 @@ public final class DailyChallengeResponseMapper {
     public static DailyChallengeSummaryResponseDTO toDTO(DailyChallengeSummaryView dailyChallenge) {
         return new DailyChallengeSummaryResponseDTO(
             dailyChallenge.id(),
+            dailyChallenge.difficulty(),
             dailyChallenge.formulation(),
             dailyChallenge.publicationDate(),
             dailyChallenge.status()

@@ -23,6 +23,8 @@ import com.github.sergiohrvas.queryle.challenges.application.queries.getdailycha
 import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenge.GetDailyChallengeQueryHandler;
 import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenges.GetDailyChallengesQuery;
 import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenges.GetDailyChallengesQueryHandler;
+import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenges.GetTodayDailyChallengesQuery;
+import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenges.GetTodayDailyChallengesQueryHandler;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.request.DailyChallengeRequestDTO;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.request.SubmitAttemptRequestDTO;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.response.DailyChallengeSummaryResponseDTO;
@@ -36,17 +38,20 @@ public class DailyChallengeController {
     private final CreateDailyChallengeCommandHandler createDailyChallengeCommandHandler;
     private final GetDailyChallengeQueryHandler getDailyChallengeQueryHandler;
     private final GetDailyChallengesQueryHandler getDailyChallengesQueryHandler;
+    private final GetTodayDailyChallengesQueryHandler getTodayDailyChallengesQueryHandler;
 
     public DailyChallengeController(
         SubmitAttemptCommandHandler submitAttemptCommandHandler,
         CreateDailyChallengeCommandHandler createDailyChallengeCommandHandler,
         GetDailyChallengesQueryHandler getDailyChallengesQueryHandler,
-        GetDailyChallengeQueryHandler getDailyChallengeQueryHandler
+        GetDailyChallengeQueryHandler getDailyChallengeQueryHandler,
+        GetTodayDailyChallengesQueryHandler getTodayDailyChallengesQueryHandler
     ) {
         this.submitAttemptCommandHandler = submitAttemptCommandHandler;
         this.createDailyChallengeCommandHandler = createDailyChallengeCommandHandler;
         this.getDailyChallengesQueryHandler = getDailyChallengesQueryHandler;
         this.getDailyChallengeQueryHandler = getDailyChallengeQueryHandler;
+        this.getTodayDailyChallengesQueryHandler = getTodayDailyChallengesQueryHandler;
     }
 
     @GetMapping
@@ -64,6 +69,20 @@ public class DailyChallengeController {
         );
         List<DailyChallengeSummaryResponseDTO> response = 
             getDailyChallengesQueryHandler.handle(query).stream()
+                .map(DailyChallengeResponseMapper::toDTO).toList();
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/today")
+    public ResponseEntity<List<DailyChallengeSummaryResponseDTO>> getTodayDailyChallenges(
+        @RequestHeader("X-Player-Id") UUID playerId
+    ) {
+        GetTodayDailyChallengesQuery query = new GetTodayDailyChallengesQuery(
+            playerId
+        );
+        List<DailyChallengeSummaryResponseDTO> response = 
+            getTodayDailyChallengesQueryHandler.handle(query).stream()
                 .map(DailyChallengeResponseMapper::toDTO).toList();
 
         return ResponseEntity.ok(response);

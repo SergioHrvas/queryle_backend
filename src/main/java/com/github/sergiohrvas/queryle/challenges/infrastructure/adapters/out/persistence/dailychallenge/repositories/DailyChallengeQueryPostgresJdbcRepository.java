@@ -15,7 +15,7 @@ import com.github.sergiohrvas.queryle.challenges.application.queries.getdailycha
 import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenge.views.DailyChallengeDataContextView;
 import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenge.views.DailyChallengeDetailView;
 import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenge.views.DailyChallengeGameView;
-import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenges.DailyChallengeSummaryView;
+import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenges.views.DailyChallengeSummaryView;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.persistence.dailychallenge.repositories.dto.DailyChallengeDetailRow;
 
 @Repository
@@ -48,7 +48,8 @@ public class DailyChallengeQueryPostgresJdbcRepository implements DailyChallenge
                         AND g.player_id = :playerId
                 WHERE
                         dc.publication_date BETWEEN :dateFrom AND :dateTo
-                        AND dc.difficulty = :difficulty
+                        AND (CAST(:difficulty AS VARCHAR) IS NULL
+                                OR dc.difficulty = CAST(:difficulty AS VARCHAR))
                 ORDER BY dc.publication_date DESC
                 """)
                 .param("playerId", playerId)
@@ -58,6 +59,7 @@ public class DailyChallengeQueryPostgresJdbcRepository implements DailyChallenge
                 .query((row, rowNum) -> new DailyChallengeSummaryView(
                         row.getObject("id", UUID.class),
                         row.getString("formulation"),
+                        row.getString("difficulty"),
                         row.getDate("publication_date").toLocalDate(),
                         row.getString("status")))
                 .list();

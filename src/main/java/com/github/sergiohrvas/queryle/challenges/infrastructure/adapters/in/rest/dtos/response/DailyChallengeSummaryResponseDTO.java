@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public record DailyChallengeSummaryResponseDTO(
     UUID id,
+    String difficulty,
     String formulation,
     LocalDate publicationDate,
     String status

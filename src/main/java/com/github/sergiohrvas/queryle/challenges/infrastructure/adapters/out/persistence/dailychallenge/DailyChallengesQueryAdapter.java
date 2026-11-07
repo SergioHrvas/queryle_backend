@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.github.sergiohrvas.queryle.challenges.application.ports.DailyChallengesQueryPort;
 import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenge.views.DailyChallengeDetailView;
-import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenges.DailyChallengeSummaryView;
+import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenges.views.DailyChallengeSummaryView;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.persistence.dailychallenge.repositories.DailyChallengeQueryRepository;
 
 @Component 
@@ -24,6 +24,11 @@ public class DailyChallengesQueryAdapter implements DailyChallengesQueryPort {
     @Override
     public List<DailyChallengeSummaryView> getDailyChallenges(UUID playerId, LocalDate dateFrom, LocalDate dateTo, String difficulty) {
         return repository.getDailyChallenges(playerId, dateFrom, dateTo, difficulty);
+    }
+
+    @Override
+    public List<DailyChallengeSummaryView> getDailyChallenges(UUID playerId, LocalDate dateFrom, LocalDate dateTo) {
+        return repository.getDailyChallenges(playerId, dateFrom, dateTo, null);
     }
 
     @Override
