@@ -4,6 +4,6 @@ public record DataContextResponseDTO(
     String name,
     String description,
     SchemaResponseDTO schema,
-    DatasetResponseDTO publicDataset
+    DatasetResponseDTO dataset
 ) {
 }

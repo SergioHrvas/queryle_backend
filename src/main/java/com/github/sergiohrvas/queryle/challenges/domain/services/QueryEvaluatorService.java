@@ -3,12 +3,12 @@ package com.github.sergiohrvas.queryle.challenges.domain.services;
 import org.springframework.stereotype.Service;
 
 import com.github.sergiohrvas.queryle.challenges.domain.exceptions.InvalidDataContextException;
+import com.github.sergiohrvas.queryle.challenges.domain.exceptions.InvalidQueryException;
 import com.github.sergiohrvas.queryle.challenges.domain.models.DataContext;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Feedback;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Schema;
 import com.github.sergiohrvas.queryle.challenges.domain.ports.SqlQueryExecutorPort;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Dataset;
-import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.MatchLevel;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.Query;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.QueryEvaluation;
 import com.github.sergiohrvas.queryle.challenges.domain.models.valueobjects.QueryExecutionPair;
@@ -52,15 +52,6 @@ public class QueryEvaluatorService {
                 validationPassed);
     }
 
-    private Feedback noMatch() {
-        return new Feedback(
-                MatchLevel.NONE,
-                MatchLevel.NONE,
-                MatchLevel.NONE,
-                MatchLevel.NONE,
-                MatchLevel.NONE);
-    }
-
     private boolean validateAgainstPrivateDatasets(
             Query submittedQuery,
             Query expectedQuery,
@@ -102,7 +93,8 @@ public class QueryEvaluatorService {
         }
 
         if (actual.status() == QueryExecutionStatus.INVALID_QUERY) {
-            return noMatch();
+            throw new InvalidQueryException(
+                    "The actual query is invalid for the given data context.");
         }
 
         return matcher.match(actual, expected);
