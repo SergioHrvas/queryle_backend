@@ -5,10 +5,10 @@ import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.per
 
 public class PlayerEntityMapper {
     public static PlayerEntity toEntity(Player player) {
-        return new PlayerEntity(player.getId(), player.getUsername(), player.getEmail(), player.getIdentitySubject());
+        return new PlayerEntity(player.getId(), player.getUsername(), player.getEmail(), player.getIdentitySubject(), player.getIdentityIssuer());
     }
     
     public static Player toDomain(PlayerEntity playerEntity) {
-        return new Player(playerEntity.getId(), playerEntity.getUsername(), playerEntity.getEmail(), playerEntity.getIdentitySubject());
+        return new Player(playerEntity.getId(), playerEntity.getUsername(), playerEntity.getEmail(), playerEntity.getIdentitySubject(), playerEntity.getIdentityIssuer());
     }
 }

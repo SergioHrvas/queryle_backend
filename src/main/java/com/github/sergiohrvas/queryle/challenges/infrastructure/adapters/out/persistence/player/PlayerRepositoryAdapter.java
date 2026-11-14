@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 import com.github.sergiohrvas.queryle.challenges.domain.models.Player;
+import com.github.sergiohrvas.queryle.challenges.domain.models.ExternalIdentity;
 import com.github.sergiohrvas.queryle.challenges.domain.repositories.PlayerRepository;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.persistence.player.mappers.PlayerEntityMapper;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.persistence.player.repositories.PlayerJPARepository;
@@ -19,12 +20,13 @@ public class PlayerRepositoryAdapter implements PlayerRepository {
 
     @Override
     public void save(Player player) {
-        playerJPARepository.save(PlayerEntityMapper.toEntity(player));
+        playerJPARepository.saveAndFlush(PlayerEntityMapper.toEntity(player));
     }
 
     @Override
-    public Optional<Player> findByIdentitySubject(String identitySubject) {
-        return playerJPARepository.findByIdentitySubject(identitySubject).map(PlayerEntityMapper::toDomain);
+    public Optional<Player> findByIdentity(ExternalIdentity identity) {
+        return playerJPARepository.findByIdentityIssuerAndIdentitySubject(identity.issuer(), identity.subject())
+            .map(PlayerEntityMapper::toDomain);
     }
 
 }

@@ -4,6 +4,8 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.github.sergiohrvas.queryle.challenges.application.exceptions.PlayerNotRegisteredException;
+import com.github.sergiohrvas.queryle.challenges.domain.models.ExternalIdentity;
 import com.github.sergiohrvas.queryle.challenges.domain.models.Player;
 import com.github.sergiohrvas.queryle.challenges.domain.repositories.PlayerRepository;
 
@@ -16,19 +18,9 @@ public class ResolveCurrentPlayerService {
         this.playerRepository = playerRepository;
     }
 
-    public UUID resolve(String identitySubject, String username, String email) {
-        return playerRepository.findByIdentitySubject(identitySubject)
+    public UUID resolve(ExternalIdentity identity) {
+        return playerRepository.findByIdentity(identity)
             .map(Player::getId)
-            .orElseGet(() -> {
-                Player player = new Player(
-                    UUID.randomUUID(),
-                    username,
-                    email,
-                    identitySubject
-                );
-
-                playerRepository.save(player);
-                return player.getId();
-            });
+            .orElseThrow(() -> new PlayerNotRegisteredException(identity));
     }
 }

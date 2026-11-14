@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.github.sergiohrvas.queryle.challenges.application.ports.CurrentPlayerPort;
 import com.github.sergiohrvas.queryle.challenges.application.services.ResolveCurrentPlayerService;
+import com.github.sergiohrvas.queryle.challenges.domain.models.ExternalIdentity;
 
 @Component
 public class SpringSecurityCurrentPlayerAdapter implements CurrentPlayerPort {
@@ -28,15 +29,12 @@ public class SpringSecurityCurrentPlayerAdapter implements CurrentPlayerPort {
             throw new IllegalStateException("No authenticated user found in the security context.");
         }
 
-        JwtAuthenticationToken jwtAuthToken = (JwtAuthenticationToken) authentication;
-        String subject = jwtAuthToken.getToken().getSubject();
-        String username = jwtAuthToken.getToken().getClaimAsString("preferred_username");
-        String email = jwtAuthToken.getToken().getClaimAsString("email");
+        if (!(authentication instanceof JwtAuthenticationToken jwtAuthToken)) {
+            throw new IllegalStateException("Authenticated user does not have a JWT identity.");
+        }
 
-        System.out.println("Subject: " + subject);
-        System.out.println("Username: " + username);
-        System.out.println("Email: " + email);
-        
-        return resolveCurrentPlayerService.resolve(subject, username, email);
+        String subject = jwtAuthToken.getToken().getSubject();
+        String issuer = Objects.toString(jwtAuthToken.getToken().getIssuer(), null);
+        return resolveCurrentPlayerService.resolve(new ExternalIdentity(issuer, subject));
     }
 }

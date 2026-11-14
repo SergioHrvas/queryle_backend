@@ -8,16 +8,26 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity 
-@Table (name = "players")
+@Table(
+    name = "players",
+    uniqueConstraints = @UniqueConstraint(
+        name = "uq_players_identity",
+        columnNames = {"identity_issuer", "identity_subject"}
+    )
+)
 public class PlayerEntity {
 
     @Id
     private UUID id;
 
-    @Column (name = "identity_subject", nullable = false, unique = true)
+    @Column (name = "identity_subject", nullable     = false)
     private String identitySubject;
+
+    @Column (name = "identity_issuer", nullable = false)
+    private String identityIssuer;
 
     @Column (nullable = false, unique = true)
     private String username;
@@ -28,11 +38,12 @@ public class PlayerEntity {
     @Column (name = "created_at", nullable = false)
     private Instant createdAt;
 
-    public PlayerEntity(UUID id, String username, String email, String identitySubject) {
+    public PlayerEntity(UUID id, String username, String email, String identitySubject, String identityIssuer) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.identitySubject = identitySubject;
+        this.identityIssuer = identityIssuer;
     }
 
     protected PlayerEntity() {}
@@ -56,6 +67,10 @@ public class PlayerEntity {
 
     public String getIdentitySubject() {
         return identitySubject;
+    }
+
+    public String getIdentityIssuer() {
+        return identityIssuer;
     }
 
     public Instant getCreatedAt() {

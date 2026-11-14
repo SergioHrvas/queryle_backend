@@ -10,5 +10,6 @@ import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.per
 
 @Repository
 public interface PlayerJPARepository extends JpaRepository<PlayerEntity, UUID> {
-    Optional<PlayerEntity> findByIdentitySubject(String identitySubject);
+    Optional<PlayerEntity> findByIdentityIssuerAndIdentitySubject(String identityIssuer, String identitySubject);
+
 }
