@@ -3,7 +3,6 @@ package com.github.sergiohrvas.queryle.challenges.application.queries.getdailych
 import java.util.UUID;
 
 public record GetDailyChallengeQuery(
-    UUID playerId,
     UUID challengeId
 ) {
 }

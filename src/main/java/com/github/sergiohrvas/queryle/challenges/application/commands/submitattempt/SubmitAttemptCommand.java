@@ -4,7 +4,6 @@ import java.util.UUID;
 
 public record SubmitAttemptCommand(
     String rawQuery,
-    UUID playerId,
     UUID dailyChallengeId
 ){
 }
