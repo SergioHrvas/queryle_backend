@@ -7,6 +7,7 @@ import com.github.sergiohrvas.queryle.challenges.domain.exceptions.InvalidFeedba
 public record Feedback (
     MatchLevel columnsNamesMatchLevel,
     MatchLevel columnsCountMatchLevel,
+    MatchLevel columnsOrderMatchLevel,
     MatchLevel rowsCountMatchLevel,
     MatchLevel rowsDataMatchLevel,
     MatchLevel rowsOrderMatchLevel
@@ -17,6 +18,9 @@ public record Feedback (
         }
         if(Objects.isNull(columnsCountMatchLevel)){
             throw new InvalidFeedbackException("Columns count match level cannot be null");
+        }
+        if(Objects.isNull(columnsOrderMatchLevel)){
+            throw new InvalidFeedbackException("Columns order match level cannot be null");
         }
         if(Objects.isNull(rowsCountMatchLevel)){
             throw new InvalidFeedbackException("Rows count match level cannot be null");
@@ -32,6 +36,7 @@ public record Feedback (
     public boolean isAllExact() {
         return MatchLevel.EXACT.equals(columnsNamesMatchLevel) &&
             MatchLevel.EXACT.equals(columnsCountMatchLevel) &&
+            MatchLevel.EXACT.equals(columnsOrderMatchLevel) &&
             MatchLevel.EXACT.equals(rowsCountMatchLevel) &&
             MatchLevel.EXACT.equals(rowsDataMatchLevel) &&
             MatchLevel.EXACT.equals(rowsOrderMatchLevel);

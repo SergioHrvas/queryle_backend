@@ -10,6 +10,7 @@ public record DailyChallengeAttemptView(
     boolean validationPassed,
     String columnsNamesMatchLevel,
     String columnsCountMatchLevel,
+    String columnsOrderMatchLevel,
     String rowsCountMatchLevel,
     String rowsDataMatchLevel,
     String rowsOrderMatchLevel

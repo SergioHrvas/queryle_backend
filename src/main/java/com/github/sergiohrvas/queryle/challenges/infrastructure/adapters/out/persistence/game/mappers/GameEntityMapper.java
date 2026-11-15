@@ -61,6 +61,7 @@ public class GameEntityMapper {
                 new Feedback(
                     MatchLevel.valueOf(attemptEntity.getColumnsNamesMatchLevel()),
                     MatchLevel.valueOf(attemptEntity.getColumnsCountMatchLevel()),
+                    MatchLevel.valueOf(attemptEntity.getColumnsOrderMatchLevel()),
                     MatchLevel.valueOf(attemptEntity.getRowsCountMatchLevel()),
                     MatchLevel.valueOf(attemptEntity.getRowsDataMatchLevel()),
                     MatchLevel.valueOf(attemptEntity.getRowsOrderMatchLevel())
@@ -78,6 +79,7 @@ public class GameEntityMapper {
             attempt.submittedAt(),
             attempt.evaluation().feedback().columnsNamesMatchLevel().name(),
             attempt.evaluation().feedback().columnsCountMatchLevel().name(),
+            attempt.evaluation().feedback().columnsOrderMatchLevel().name(),
             attempt.evaluation().feedback().rowsCountMatchLevel().name(),
             attempt.evaluation().feedback().rowsDataMatchLevel().name(),
             attempt.evaluation().feedback().rowsOrderMatchLevel().name(),
