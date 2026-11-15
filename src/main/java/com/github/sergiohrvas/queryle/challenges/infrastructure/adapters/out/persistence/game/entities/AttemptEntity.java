@@ -30,12 +30,15 @@ public class AttemptEntity {
 
     @Column(name = "submitted_at", nullable = false)
     private LocalDateTime submittedAt;
-    
+
     @Column(name = "columns_names_match_level", nullable = false)
     private String columnsNamesMatchLevel;
 
     @Column(name = "columns_count_match_level", nullable = false)
     private String columnsCountMatchLevel;
+
+    @Column(name = "columns_order_match_level", nullable = false)
+    private String columnsOrderMatchLevel;
 
     @Column(name = "rows_count_match_level", nullable = false)
     private String rowsCountMatchLevel;
@@ -55,6 +58,7 @@ public class AttemptEntity {
         LocalDateTime submittedAt,
         String columnsNamesMatchLevel,
         String columnsCountMatchLevel,
+        String columnsOrderMatchLevel,
         String rowsCountMatchLevel,
         String rowsDataMatchLevel,
         String rowsOrderMatchLevel,
@@ -65,6 +69,7 @@ public class AttemptEntity {
         this.submittedAt = submittedAt;
         this.columnsNamesMatchLevel = columnsNamesMatchLevel;
         this.columnsCountMatchLevel = columnsCountMatchLevel;
+        this.columnsOrderMatchLevel = columnsOrderMatchLevel;
         this.rowsCountMatchLevel = rowsCountMatchLevel;
         this.rowsDataMatchLevel = rowsDataMatchLevel;
         this.rowsOrderMatchLevel = rowsOrderMatchLevel;
@@ -95,6 +100,10 @@ public class AttemptEntity {
     
     public String getColumnsCountMatchLevel() {
         return columnsCountMatchLevel;
+    }
+
+    public String getColumnsOrderMatchLevel() {
+        return columnsOrderMatchLevel;
     }
 
     public String getRowsCountMatchLevel() {

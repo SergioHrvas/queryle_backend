@@ -71,8 +71,10 @@ public class H2SqlQueryExecutorAdapter implements SqlQueryExecutorPort {
                 int columnCount = metaData.getColumnCount();
 
                 List<String> columns = new ArrayList<>();
+                List<String> sourceColumns = new ArrayList<>();
                 for (int i = 1; i <= columnCount; i++) {
                     columns.add(metaData.getColumnLabel(i).toLowerCase());
+                    sourceColumns.add(metaData.getColumnName(i).toLowerCase());
                 }
 
                 List<Map<String, String>> rows = new ArrayList<>();
@@ -85,10 +87,10 @@ public class H2SqlQueryExecutorAdapter implements SqlQueryExecutorPort {
                     rows.add(row);
                 }
 
-                return new QueryResult(columns, rows, QueryExecutionStatus.SUCCESS);
+                return new QueryResult(columns, sourceColumns, rows, QueryExecutionStatus.SUCCESS);
             }
         } catch (SQLException e) {
-            return new QueryResult(List.of(), List.of(), QueryExecutionStatus.INVALID_QUERY);
+            return new QueryResult(List.of(), List.of(), List.of(), QueryExecutionStatus.INVALID_QUERY);
         }
     }
 }

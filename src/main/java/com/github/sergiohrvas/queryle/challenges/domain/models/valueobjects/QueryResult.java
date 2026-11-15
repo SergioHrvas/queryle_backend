@@ -11,12 +11,16 @@ import com.github.sergiohrvas.queryle.challenges.domain.exceptions.InvalidQueryR
  */
 public record QueryResult(
         List<String> columns,
+        List<String> sourceColumns,
         List<Map<String, String>> rows,
         QueryExecutionStatus status
 ) {
     public QueryResult {
         if(Objects.isNull(columns)){
             throw new InvalidQueryResult("Columns cannot be null");
+        }
+        if(Objects.isNull(sourceColumns)){
+            throw new InvalidQueryResult("Source columns cannot be null");
         }
         if(Objects.isNull(rows)){
             throw new InvalidQueryResult("Rows cannot be null");
@@ -26,6 +30,7 @@ public record QueryResult(
         }
 
         columns = List.copyOf(columns);
+        sourceColumns = List.copyOf(sourceColumns);
         rows = rows.stream().map(Map::copyOf).toList();
     }
 }

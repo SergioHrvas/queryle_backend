@@ -100,6 +100,7 @@ public final class DailyChallengeResponseMapper {
             attempt.validationPassed(),
             attempt.columnsNamesMatchLevel(),
             attempt.columnsCountMatchLevel(),
+            attempt.columnsOrderMatchLevel(),
             attempt.rowsCountMatchLevel(),
             attempt.rowsDataMatchLevel(),
             attempt.rowsOrderMatchLevel()

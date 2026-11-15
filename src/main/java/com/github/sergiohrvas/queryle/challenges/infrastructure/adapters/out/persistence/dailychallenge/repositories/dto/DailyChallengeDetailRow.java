@@ -20,6 +20,7 @@ public record DailyChallengeDetailRow(
     Boolean validationPassed,
     String columnsNamesMatchLevel,
     String columnsCountMatchLevel,
+    String columnsOrderMatchLevel,
     String rowsCountMatchLevel,
     String rowsDataMatchLevel,
     String rowsOrderMatchLevel

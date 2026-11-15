@@ -88,6 +88,7 @@ public class DailyChallengeQueryPostgresJdbcRepository implements DailyChallenge
                         a.validation_passed,
                         a.columns_names_match_level,
                         a.columns_count_match_level,
+                        a.columns_order_match_level,
                         a.rows_count_match_level,
                         a.rows_data_match_level,
                         a.rows_order_match_level
@@ -120,6 +121,7 @@ public class DailyChallengeQueryPostgresJdbcRepository implements DailyChallenge
                         row.getObject("validation_passed", Boolean.class),
                         row.getString("columns_names_match_level"),
                         row.getString("columns_count_match_level"),
+                        row.getString("columns_order_match_level"),
                         row.getString("rows_count_match_level"),
                         row.getString("rows_data_match_level"),
                         row.getString("rows_order_match_level")))
@@ -140,6 +142,7 @@ public class DailyChallengeQueryPostgresJdbcRepository implements DailyChallenge
                                 row.validationPassed(),
                                 row.columnsNamesMatchLevel(),
                                 row.columnsCountMatchLevel(),
+                                row.columnsOrderMatchLevel(),
                                 row.rowsCountMatchLevel(),
                                 row.rowsDataMatchLevel(),
                                 row.rowsOrderMatchLevel()))
