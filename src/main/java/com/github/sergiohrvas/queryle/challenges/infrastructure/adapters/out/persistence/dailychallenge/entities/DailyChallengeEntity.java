@@ -14,13 +14,13 @@ public class DailyChallengeEntity {
     @Id
     private UUID id;
 
-    @Column(name = "formulation", nullable = false)
+    @Column(name = "formulation", nullable = false, length = 1000)
     private String formulation;
 
-    @Column(name = "query", nullable = false)
+    @Column(name = "query", nullable = false, length = 10000)
     private String query;
 
-    @Column(name = "difficulty", nullable = false)
+    @Column(name = "difficulty", nullable = false, length = 20)
     private String difficulty;
 
     @Column(name = "publication_date", nullable = false)

@@ -1,17 +1,13 @@
 package com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.controllers;
 
-import java.util.UUID;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.response.PlayerStatsResponseDTO;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.mappers.PlayerStatsResponseMapper;
-import com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats.GetPlayerStatsQuery;
 import com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats.GetPlayerStatsQueryHandler;
 import com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats.PlayerStatsView;
 
@@ -24,10 +20,9 @@ public class PlayerStatsController {
         this.getPlayerStatsQueryHandler = getPlayerStatsQueryHandler;    
     }
 
-    @GetMapping("/{playerId}")
-    public ResponseEntity<PlayerStatsResponseDTO> getPlayerStats(@PathVariable UUID playerId) {
-        GetPlayerStatsQuery query = new GetPlayerStatsQuery(playerId);
-        PlayerStatsView playerStats = getPlayerStatsQueryHandler.handle(query);
+    @GetMapping("/me")
+    public ResponseEntity<PlayerStatsResponseDTO> getPlayerStats() {
+        PlayerStatsView playerStats = getPlayerStatsQueryHandler.handle();
         return ResponseEntity.ok(PlayerStatsResponseMapper.toDTO(playerStats));
     }
 }

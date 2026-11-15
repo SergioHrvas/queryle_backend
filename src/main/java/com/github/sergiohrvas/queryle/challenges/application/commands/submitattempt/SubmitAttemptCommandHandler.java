@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.sergiohrvas.queryle.challenges.application.exceptions.DailyChallengeNotFoundException;
 import com.github.sergiohrvas.queryle.challenges.application.exceptions.DataContextNotFoundException;
+import com.github.sergiohrvas.queryle.challenges.application.ports.CurrentPlayerPort;
 import com.github.sergiohrvas.queryle.challenges.domain.models.DailyChallenge;
 import com.github.sergiohrvas.queryle.challenges.domain.models.DataContext;
 import com.github.sergiohrvas.queryle.challenges.domain.models.Game;
@@ -27,22 +28,25 @@ public class SubmitAttemptCommandHandler {
         private final DataContextRepository dataContextRepository;
         private final GameRepository gameRepository;
         private final QueryEvaluatorService queryEvaluator;
+        private final CurrentPlayerPort currentPlayerPort;
 
         public SubmitAttemptCommandHandler(
                 DailyChallengeRepository dailyChallengeRepository,
                 DataContextRepository dataContextRepository,
                 GameRepository gameRepository,
-                QueryEvaluatorService queryEvaluator
+                QueryEvaluatorService queryEvaluator,
+                CurrentPlayerPort currentPlayerPort
         ) {
                 this.dailyChallengeRepository = dailyChallengeRepository;
                 this.dataContextRepository = dataContextRepository;
                 this.gameRepository = gameRepository;
                 this.queryEvaluator = queryEvaluator;
+                this.currentPlayerPort = currentPlayerPort;
         }
 
         @Transactional
         public void handle(SubmitAttemptCommand command) {
-                UUID playerId = command.playerId();
+                UUID playerId = currentPlayerPort.getCurrentPlayerId();
                 UUID dailyChallengeId = command.dailyChallengeId();
                 LocalDateTime now = LocalDateTime.now();
                 

@@ -16,6 +16,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import com.github.sergiohrvas.queryle.challenges.application.exceptions.DailyChallengeNotFoundException;
 import com.github.sergiohrvas.queryle.challenges.application.exceptions.DataContextNotFoundException;
+import com.github.sergiohrvas.queryle.challenges.application.exceptions.PlayerNotRegisteredException;
 import com.github.sergiohrvas.queryle.challenges.domain.exceptions.InvalidDataContextException;
 import com.github.sergiohrvas.queryle.challenges.domain.exceptions.InvalidQueryException;
 
@@ -53,6 +54,16 @@ public class GlobalExceptionHandler {
             "Resource not found",
             ex.getMessage(),
             "resource-not-found"
+        );
+    }
+
+    @ExceptionHandler(PlayerNotRegisteredException.class)
+    public ProblemDetail handlePlayerNotRegistered(PlayerNotRegisteredException ex) {
+        return problem(
+            HttpStatus.FORBIDDEN,
+            "Player not registered",
+            "Register the authenticated player before accessing private resources.",
+            "PLAYER_NOT_REGISTERED"
         );
     }
 
