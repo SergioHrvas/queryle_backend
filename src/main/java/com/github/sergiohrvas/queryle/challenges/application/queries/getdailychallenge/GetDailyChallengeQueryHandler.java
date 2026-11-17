@@ -1,9 +1,13 @@
 package com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenge;
 
+import java.time.LocalDate;
+import java.util.Objects;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.github.sergiohrvas.queryle.challenges.application.exceptions.DailyChallengeNotAvailableException;
+import com.github.sergiohrvas.queryle.challenges.application.exceptions.DailyChallengeNotFoundException;
 import com.github.sergiohrvas.queryle.challenges.application.ports.CurrentPlayerPort;
 import com.github.sergiohrvas.queryle.challenges.application.ports.DailyChallengesQueryPort;
 import com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenge.views.DailyChallengeDetailView;
@@ -21,9 +25,19 @@ public class GetDailyChallengeQueryHandler {
     public DailyChallengeDetailView handle(GetDailyChallengeQuery query) {
         UUID playerId = currentPlayerPort.getCurrentPlayerId();
         
-        return dailyChallengesQueryPort.getDailyChallenge(
+        LocalDate today = LocalDate.now();
+        DailyChallengeDetailView dailyChallenge = dailyChallengesQueryPort.getDailyChallenge(
             playerId,
             query.challengeId()
         );
+
+        if (Objects.isNull(dailyChallenge)) {
+            throw new DailyChallengeNotFoundException(query.challengeId());
+        }
+
+        if (dailyChallenge.publicationDate().isAfter(today)) {
+            throw new DailyChallengeNotAvailableException(query.challengeId());
+        }
+        return dailyChallenge;
     }
 }

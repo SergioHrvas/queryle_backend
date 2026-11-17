@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import com.github.sergiohrvas.queryle.challenges.application.exceptions.DailyChallengeNotAvailableException;
 import com.github.sergiohrvas.queryle.challenges.application.exceptions.DailyChallengeNotFoundException;
 import com.github.sergiohrvas.queryle.challenges.application.exceptions.DataContextNotFoundException;
 import com.github.sergiohrvas.queryle.challenges.application.exceptions.PlayerNotRegisteredException;
@@ -54,6 +55,16 @@ public class GlobalExceptionHandler {
             "Resource not found",
             ex.getMessage(),
             "resource-not-found"
+        );
+    }
+
+    @ExceptionHandler (DailyChallengeNotAvailableException.class)
+    public ProblemDetail handleDailyChallengeNotAvailableException(DailyChallengeNotAvailableException ex) {
+        return problem(
+            HttpStatus.FORBIDDEN,
+            "Daily challenge not available",
+            ex.getMessage(),
+            "daily-challenge-not-available"
         );
     }
 
