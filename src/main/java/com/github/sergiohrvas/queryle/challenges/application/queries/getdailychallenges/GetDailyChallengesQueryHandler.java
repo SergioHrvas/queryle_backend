@@ -1,5 +1,6 @@
 package com.github.sergiohrvas.queryle.challenges.application.queries.getdailychallenges;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,11 +23,11 @@ public class GetDailyChallengesQueryHandler {
 
     public List<DailyChallengeSummaryView> handle(GetDailyChallengesQuery query) {
         UUID playerId = currentPlayerPort.getCurrentPlayerId(); 
-        
+        LocalDate effectiveTo = query.dateTo().isAfter(LocalDate.now()) ? LocalDate.now() : query.dateTo();
         return dailyChallengesQueryPort.getDailyChallenges(
             playerId,
             query.dateFrom(),
-            query.dateTo(),
+            effectiveTo,
             query.difficulty()
         );
     }
