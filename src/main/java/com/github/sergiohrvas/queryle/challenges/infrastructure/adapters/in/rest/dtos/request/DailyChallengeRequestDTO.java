@@ -8,6 +8,7 @@ public record DailyChallengeRequestDTO(
     String query,
     String difficulty,
     LocalDate publicationDate,
+    String icon,
     UUID dataContextId
 ) {
 }

@@ -7,6 +7,7 @@ public record DataContextRequestDTO(
     String description,
     String schema,
     String publicDataset,
-    List<String> privateDatasets
+    List<String> privateDatasets,
+    String icon
 ) {
 }

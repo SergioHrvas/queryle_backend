@@ -1,15 +1,3 @@
-CREATE TABLE IF NOT EXISTS players (
-    id UUID PRIMARY KEY,
-    identity_issuer VARCHAR(1000) NOT NULL,
-    identity_subject VARCHAR(255) NOT NULL,
-    username VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP NOT NULL,
-    CONSTRAINT uq_players_identity UNIQUE (identity_issuer, identity_subject),
-    CONSTRAINT uq_players_username UNIQUE (username),
-    CONSTRAINT uq_players_email UNIQUE (email)
-);
-
 CREATE TABLE IF NOT EXISTS data_context_read_models (
     data_context_id UUID PRIMARY KEY,
     version BIGINT NOT NULL,

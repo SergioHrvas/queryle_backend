@@ -12,6 +12,7 @@ public record DailyChallengeDetailRow(
     UUID dataContextId,
     String name,
     String description,
+    String icon,
     UUID gameId,
     String gameStatus,
     UUID attemptId,

@@ -43,7 +43,8 @@ public final class DailyChallengeResponseMapper {
                 dailyChallenge.datacontext().name(),
                 dailyChallenge.datacontext().description(),
                 toDTO(dailyChallenge.datacontext().schema()),
-                toDTO(dailyChallenge.datacontext().dataset())
+                toDTO(dailyChallenge.datacontext().dataset()),
+                dailyChallenge.datacontext().icon()
             )
         );
     }

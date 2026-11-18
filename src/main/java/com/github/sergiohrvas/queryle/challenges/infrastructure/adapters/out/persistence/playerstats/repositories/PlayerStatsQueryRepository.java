@@ -2,7 +2,7 @@ package com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.pe
 
 import java.util.UUID;
 
-import com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats.PlayerStatsView;
+import com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats.views.PlayerStatsView;
 
 public interface PlayerStatsQueryRepository {
     public PlayerStatsView getStats(UUID playerId);

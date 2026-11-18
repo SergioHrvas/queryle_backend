@@ -47,7 +47,8 @@ public class CreateDataContextCommandHandler {
             command.description(),
             schema,
             publicDataset,
-            privateDatasets
+            privateDatasets,
+            command.icon()
         );
 
         DataContextProjection projection = projectionGenerator.generate(dataContext);

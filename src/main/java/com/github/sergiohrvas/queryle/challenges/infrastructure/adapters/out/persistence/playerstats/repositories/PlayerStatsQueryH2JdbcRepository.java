@@ -5,7 +5,7 @@ import java.util.UUID;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
-import com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats.PlayerStatsView;
+import com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats.views.PlayerStatsView;
 
 @Repository
 public class PlayerStatsQueryH2JdbcRepository implements PlayerStatsQueryRepository {

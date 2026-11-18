@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
-import com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats.PlayerStatsView;
+import com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats.views.PlayerStatsView;
 
 @Primary
 @Repository

@@ -29,7 +29,8 @@ public class DataContextController {
                 request.description(),
                 request.schema(),
                 request.publicDataset(),
-                request.privateDatasets()
+                request.privateDatasets(),
+                request.icon()
             )
         );
         return ResponseEntity.status(HttpStatus.CREATED).build();
