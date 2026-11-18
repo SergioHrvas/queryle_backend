@@ -78,6 +78,7 @@ public class DailyChallengeQueryPostgresJdbcRepository implements DailyChallenge
 
                         ctx.name,
                         ctx.description,
+                        ctx.icon,
 
                         g.id AS game_id,
                         g.status AS game_status,
@@ -113,6 +114,7 @@ public class DailyChallengeQueryPostgresJdbcRepository implements DailyChallenge
                         row.getObject("data_context_id", UUID.class),
                         row.getString("name"),
                         row.getString("description"),
+                        row.getString("icon"),
                         row.getObject("game_id", UUID.class),
                         row.getString("game_status"),
                         row.getObject("attempt_id", UUID.class),
@@ -163,7 +165,8 @@ public class DailyChallengeQueryPostgresJdbcRepository implements DailyChallenge
                         first.name(),
                         first.description(),
                         projection.schema(),
-                        projection.dataset());
+                        projection.dataset(),
+                        first.icon());
 
                 return new DailyChallengeDetailView(
                         first.id(),

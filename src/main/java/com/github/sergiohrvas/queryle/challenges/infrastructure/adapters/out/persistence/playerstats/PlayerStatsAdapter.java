@@ -5,7 +5,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Component;
 
 import com.github.sergiohrvas.queryle.challenges.application.ports.PlayerStatsQueryPort;
-import com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats.PlayerStatsView;
+import com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats.views.PlayerStatsView;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.out.persistence.playerstats.repositories.PlayerStatsQueryRepository;
 
 @Component

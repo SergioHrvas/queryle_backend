@@ -16,19 +16,22 @@ public class DataContext {
     private final Schema schema;
     private final Dataset publicDataset;
     private final List<Dataset> privateDatasets;
+    private final String icon;
 
-    public DataContext(String name, String description, Schema schema, Dataset publicDataset, List<Dataset> privateDatasets) {
-        this(UUID.randomUUID(), name, description, schema, publicDataset, privateDatasets);
+
+    public DataContext(String name, String description, Schema schema, Dataset publicDataset, List<Dataset> privateDatasets, String icon) {
+        this(UUID.randomUUID(), name, description, schema, publicDataset, privateDatasets, icon);
     }
 
-    public DataContext(UUID id, String name, String description, Schema schema, Dataset publicDataset, List<Dataset> privateDatasets) {
-        validateState(id, name, description, schema, publicDataset, privateDatasets);
+    public DataContext(UUID id, String name, String description, Schema schema, Dataset publicDataset, List<Dataset> privateDatasets, String icon) {
+        validateState(id, name, description, schema, publicDataset, privateDatasets, icon);
         this.id = id;
         this.name = name;
         this.description = description;
         this.schema = schema;
         this.publicDataset = publicDataset;
         this.privateDatasets = List.copyOf(privateDatasets);
+        this.icon = icon;
     }
 
     public UUID getId() {
@@ -55,7 +58,11 @@ public class DataContext {
         return privateDatasets;
     }
 
-    private void validateState(UUID id, String name, String description, Schema schema, Dataset publicDataset, List<Dataset> privateDatasets) {
+    public String getIcon() {
+        return icon;
+    }
+
+    private void validateState(UUID id, String name, String description, Schema schema, Dataset publicDataset, List<Dataset> privateDatasets, String icon) {
         if(Objects.isNull(id)){
             throw new InvalidDataContextException("Id cannot be null");
         }
@@ -80,6 +87,9 @@ public class DataContext {
         if(description.trim().isBlank()){
             throw new InvalidDataContextException("Description cannot be empty");
         }
+        if(Objects.isNull(icon)){
+            throw new InvalidDataContextException("Icon cannot be null");
+        }
     }
 
     @Override
@@ -97,6 +107,6 @@ public class DataContext {
 
     @Override
     public String toString() {
-        return "DataContext [id=" + id + ", name=" + name + ", description=" + description + ", schema=" + schema + ", publicDataset=" + publicDataset + ", privateDatasets=" + privateDatasets + "]";
+        return "DataContext [id=" + id + ", name=" + name + ", description=" + description + ", schema=" + schema + ", publicDataset=" + publicDataset + ", privateDatasets=" + privateDatasets + ", icon=" + icon + "]";
     }
 }

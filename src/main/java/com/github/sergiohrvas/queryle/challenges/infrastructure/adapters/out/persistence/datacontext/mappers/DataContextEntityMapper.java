@@ -26,7 +26,8 @@ public class DataContextEntityMapper {
             dataContext.getDescription(), 
             dataContext.getSchema().schema(),
             dataContext.getPublicDataset().dataFixture(),
-            privateDatasets
+            privateDatasets,
+            dataContext.getIcon()
         );
     }
 
@@ -50,7 +51,8 @@ public class DataContextEntityMapper {
             new Dataset(
                 dataContextEntity.getPublicDataset()
             ),
-            privateDatasets
+            privateDatasets,
+            dataContextEntity.getIcon()
         );
     }
 }

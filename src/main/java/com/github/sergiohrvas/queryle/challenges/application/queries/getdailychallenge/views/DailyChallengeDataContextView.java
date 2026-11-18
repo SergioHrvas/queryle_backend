@@ -4,6 +4,7 @@ public record DailyChallengeDataContextView (
     String name,
     String description,
     SchemaView schema,
-    DatasetView dataset
+    DatasetView dataset,
+    String icon
 )
 { }

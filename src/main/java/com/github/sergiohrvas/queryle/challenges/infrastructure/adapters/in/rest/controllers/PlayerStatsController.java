@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.dtos.response.PlayerStatsResponseDTO;
 import com.github.sergiohrvas.queryle.challenges.infrastructure.adapters.in.rest.mappers.PlayerStatsResponseMapper;
 import com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats.GetPlayerStatsQueryHandler;
-import com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats.PlayerStatsView;
+import com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats.views.PlayerStatsView;
 
 @RestController
 @RequestMapping("/api/v1/player-stats")

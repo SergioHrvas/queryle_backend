@@ -45,13 +45,17 @@ public class DataContextEntity {
     )
     private List<String> privateDatasets = new ArrayList<>();
 
+    @Column (name = "icon", nullable = false, length = 10)
+    private String icon;
+
     public DataContextEntity(
         UUID id, 
         String name, 
         String description, 
         String schema, 
         String publicDataset, 
-        List<String> privateDatasets
+        List<String> privateDatasets,
+        String icon
     ) {
         this.id = id;
         this.name = name;
@@ -59,6 +63,7 @@ public class DataContextEntity {
         this.schema = schema;
         this.publicDataset = publicDataset;
         this.privateDatasets = new ArrayList<>(privateDatasets);
+        this.icon = icon;
     }
     
     protected DataContextEntity() {}
@@ -85,5 +90,9 @@ public class DataContextEntity {
     
     public List<String> getPrivateDatasets() {
         return List.copyOf(privateDatasets);
+    }
+
+    public String getIcon() {
+        return icon;
     }
 }

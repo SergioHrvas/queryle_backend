@@ -1,4 +1,4 @@
-package com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats;
+package com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats.views;
 
 import java.util.UUID;
 

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.sergiohrvas.queryle.challenges.application.ports.CurrentPlayerPort;
 import com.github.sergiohrvas.queryle.challenges.application.ports.PlayerStatsQueryPort;
+import com.github.sergiohrvas.queryle.challenges.application.queries.getplayerstats.views.PlayerStatsView;
 
 @Service
 public class GetPlayerStatsQueryHandler {
